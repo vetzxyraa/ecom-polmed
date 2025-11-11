@@ -1,0 +1,122 @@
+/* ==================================
+RESPONSIVE DESIGN
+==================================
+*/
+
+/* Tablet (misal: iPad) */
+@media (max-width: 1024px) {
+    .product-grid {
+        /* 3 kolom di tablet */
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .admin-table, .table-container table {
+        table-layout: auto; /* Balikin ke auto */
+    }
+
+    /* FIX: Ubah layout form edit produk di tablet */
+    .form-edit-product-wrapper {
+        grid-template-columns: 1fr; /* Jadi 1 kolom */
+    }
+    .form-edit-product-sidebar {
+        position: static; /* Hapus sticky */
+        max-width: 100%;
+        grid-row: 1; /* Pindahkan sidebar gambar ke atas form */
+    }
+    .image-preview-container {
+        max-width: 100%;
+        height: 300px;
+    }
+    #image-preview {
+        width: auto;
+        height: 100%;
+    }
+}
+
+/* Mobile (Layar Besar) */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 0;
+    }
+
+    .nav-links {
+        margin-top: 15px;
+        flex-wrap: wrap; /* Biar bisa wrap di mobile */
+        justify-content: center;
+        gap: 5px;
+    }
+    
+    .nav-links li {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+    }
+    
+    .product-grid {
+        /* 2 kolom di mobile */
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-detail-container {
+        flex-direction: column;
+        padding: 24px;
+        gap: 20px;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .admin-header .btn-add-new {
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Membuat tabel admin bisa di-scroll horizontal */
+    .admin-table-wrapper, .table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    .admin-table, .table-container table {
+        min-width: 800px; /* Paksa tabel jadi lebar */
+    }
+
+    .product-detail-actions {
+        flex-direction: column;
+    }
+}
+
+/* Mobile (Layar Kecil) */
+@media (max-width: 480px) {
+    .product-grid {
+        /* 1 kolom di layar sangat kecil */
+        grid-template-columns: 1fr;
+    }
+    
+    .product-actions {
+        grid-template-columns: 1fr; /* Tombol jadi 1 kolom */
+    }
+
+    .login-container {
+        margin-top: 0;
+        padding: 20px;
+    }
+
+    .nav-links li {
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+        padding: 5px;
+    }
+}

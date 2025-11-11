@@ -1,0 +1,165 @@
+/* ==================================
+HEADER & NAVIGASI
+==================================
+*/
+
+.container {
+    width: 90%;
+    max-width: 1280px; /* Dilebarkan untuk 4 kolom */
+    margin: 0 auto;
+}
+
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    background-color: var(--bg-white); 
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Jarak antara icon dan teks */
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+}
+.logo-icon {
+    stroke-width: 2.5px;
+    color: var(--primary);
+}
+.logo:hover {
+    color: var(--secondary);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    padding: 5px 10px;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+    color: var(--secondary);
+    border-bottom-color: var(--primary);
+}
+
+.btn-nav-admin {
+    background-color: var(--secondary);
+    color: var(--bg-white);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-nav-admin:hover {
+    background-color: #000;
+    color: var(--bg-white);
+    border-bottom: none;
+}
+
+/* ==================================
+GRID PRODUK
+==================================
+*/
+
+.product-grid {
+    display: grid;
+    /* 4 kolom di desktop */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 32px; /* FIX: Jarak antar kartu ditambah */
+}
+
+/* ==================================
+DETAIL PRODUK
+==================================
+*/
+
+.product-detail-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    background: var(--bg-white);
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.product-detail-image {
+    flex-basis: 50%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+.product-detail-image img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+.product-detail-info {
+    flex-basis: 50%;
+}
+.product-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.product-price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+.product-stock {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    display: inline-block;
+    background: var(--bg-light);
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+.product-description {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    white-space: pre-wrap; /* Agar nl2br() berfungsi baik */
+}
+
+/* ==================================
+FORM & STATUS LAYOUT
+==================================
+*/
+
+.form-container, .status-box {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
