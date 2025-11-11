@@ -3,6 +3,9 @@ include 'includes/session_check.php';
 require '../config/database.php';
 include 'includes/header.php';
 
+// Daftar status yang konsisten
+$list_status = ['menunggu', 'menunggu konfirmasi', 'diproses', 'dikirim', 'selesai', 'dibatalkan'];
+
 $sql = "SELECT pesanan.*, produk.nama_produk 
         FROM pesanan 
         JOIN produk ON pesanan.produk_id = produk.id 
@@ -23,12 +26,12 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <table class="admin-table">
         <thead>
             <tr>
-                <th>Kode Pesanan</th>
-                <th>Produk</th>
-                <th>Pembeli</th>
-                <th>Total</th>
-                <th>Status & Pesan</th>
-                <th>Aksi</th>
+                <th style="width: 15%;">Kode Pesanan</th>
+                <th style="width: 15%;">Produk</th>
+                <th style="width: 20%;">Pembeli</th>
+                <th style="width: 10%;">Total</th>
+                <th style="width: 15%;">Status</th>
+                <th style="width: 25%;">Update Status & Pesan</th>
             </tr>
         </thead>
         <tbody>
@@ -50,16 +53,9 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <td>
                         <?php
                             $status = $pesanan['status'];
-                            $status_class = '';
-                            if ($status == 'menunggu') {
-                                $status_class = 'status-menunggu';
-                            } elseif ($status == 'berhasil') {
-                                $status_class = 'status-berhasil';
-                            } elseif ($status == 'gagal') {
-                                $status_class = 'status-gagal';
-                            }
+                            $status_class = 'status-' . str_replace(' ', '-', $status); // misal: status-menunggu-konfirmasi
                         ?>
-                        <span class="status-badge <?php echo $status_class; ?>" style="margin-bottom: 5px;">
+                        <span class="status-badge <?php echo $status_class; ?>">
                             <?php echo htmlspecialchars($status); ?>
                         </span>
                         
@@ -70,18 +66,26 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         <?php endif; ?>
                     </td>
                     <td>
-                         <form action="update_order.php" method="POST" style="display: flex; flex-direction: column; gap: 10px;">
+                         <!-- Form update status -->
+                         <form action="update_order.php" method="POST" class="form-update-status">
                             <input type="hidden" name="pesanan_id" value="<?php echo $pesanan['id']; ?>">
                             
-                            <select name="status" class="form-control" style="padding: 5px 8px; font-size: 0.9rem;" onchange="resetPesan(this)">
-                                <option value="menunggu" <?php echo ($pesanan['status'] == 'menunggu') ? 'selected' : ''; ?>>Menunggu</option>
-                                <option value="berhasil" <?php echo ($pesanan['status'] == 'berhasil') ? 'selected' : ''; ?>>Berhasil</option>
-                                <option value="gagal" <?php echo ($pesanan['status'] == 'gagal') ? 'selected' : ''; ?>>Gagal</option>
-                            </select>
+                            <div class="form-group" style="margin-bottom: 10px;">
+                                <select name="status" class="form-control" onchange="togglePesanAdmin(this)">
+                                    <?php foreach ($list_status as $status_option): ?>
+                                        <option value="<?php echo $status_option; ?>" <?php echo ($pesanan['status'] == $status_option) ? 'selected' : ''; ?>>
+                                            <?php echo ucfirst($status_option); // Huruf awal kapital ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                             
-                            <textarea name="pesan_admin" class="form-control" style="font-size: 0.9rem;" placeholder="Pesan admin (opsional)..."><?php echo htmlspecialchars($pesanan['pesan_admin']); ?></textarea>
+                            <!-- Textarea untuk pesan admin, defaultnya tersembunyi -->
+                            <div class="form-group pesan-admin-wrapper" <?php echo ($pesanan['status'] != 'dibatalkan') ? 'style="display: none;"' : ''; ?>>
+                                <textarea name="pesan_admin" class="form-control" placeholder="Alasan pembatalan (jika dibatalkan)..."><?php echo htmlspecialchars($pesanan['pesan_admin']); ?></textarea>
+                            </div>
                             
-                            <button type="submit" class="btn" style="padding: 8px 10px; font-size: 0.8rem;">Update</button>
+                            <button type="submit" class="btn">Update</button>
                         </form>
                     </td>
                 </tr>
@@ -92,16 +96,20 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
 </div>
 
 <script>
-// Fungsi untuk reset pesan admin saat status diubah
-function resetPesan(selectElement) {
+// Fungsi untuk menampilkan/menyembunyikan field pesan admin
+function togglePesanAdmin(selectElement) {
     // Cari form terdekat
-    var form = selectElement.closest('form');
+    var form = selectElement.closest('.form-update-status');
     if (form) {
-        // Cari textarea di dalam form itu
-        var textarea = form.querySelector('textarea[name="pesan_admin"]');
-        if (textarea) {
-            // Reset isinya
-            textarea.value = '';
+        // Cari wrapper textarea di dalam form itu
+        var textareaWrapper = form.querySelector('.pesan-admin-wrapper');
+        var textarea = textareaWrapper.querySelector('textarea');
+        
+        if (selectElement.value === 'dibatalkan') {
+            textareaWrapper.style.display = 'block'; // Tampilkan
+        } else {
+            textareaWrapper.style.display = 'none'; // Sembunyikan
+            textarea.value = ''; // Kosongkan nilainya
         }
     }
 }

@@ -14,8 +14,11 @@ CREATE TABLE `admin` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Password untuk 'admin' adalah 'admin123'
+-- Password untuk 'polmed' adalah 'polmed123'
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-(1, 'admin', '$2y$10$I0I.n2.a.iQe3g.s8Q3h6uJ5f.VA/v9uU8xP.l/jF9q5iP.q3a.Oq');
+(1, 'admin', '$2y$10$I0I.n2.a.iQe3g.s8Q3h6uJ5f.VA/v9uU8xP.l/jF9q5iP.q3a.Oq'),
+(2, 'polmed', '$2y$10$E.hJP..TR6EAML.Qx7s1FuR3a4nU.JjR.Ngesa76iARj0uDjp3wua');
 
 CREATE TABLE `produk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

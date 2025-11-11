@@ -11,12 +11,13 @@ TEMA UTAMA (Premium Amber & Grey)
     --bg-light: #F9FAFB; /* Gray 50 */
     --bg-white: #FFFFFF;
     --border-color: #E5E7EB; /* Gray 200 */
-    --bg-navbar: #E5E7EB; /* Navbar Abu-abu */
     
     /* Warna Status */
     --status-menunggu: #F59E0B; /* Kuning */
-    --status-berhasil: #10B981; /* Hijau */
-    --status-gagal: #EF4444;   /* Merah */
+    --status-proses: #3B82F6;   /* Biru */
+    --status-kirim: #059669;    /* Teal */
+    --status-selesai: #10B981;  /* Hijau */
+    --status-dibatalkan: #EF4444; /* Merah */
 
     /* Warna Tombol WA */
     --whatsapp: #25D366;
@@ -39,6 +40,8 @@ body {
     background-color: var(--bg-light);
     color: var(--secondary);
     line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html {
@@ -286,6 +289,26 @@ TOMBOL (Buttons)
     transform: none;
 }
 
+/* Tombol Aksi Admin */
+.btn-warning {
+    background-color: #FBBF24; /* Amber 400 */
+    color: #451A03; /* Amber 900 */
+}
+.btn-warning:hover {
+    background-color: #F59E0B; /* Amber 500 */
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+}
+.btn-danger {
+    background-color: #F87171; /* Red 400 */
+    color: #7F1D1D; /* Red 900 */
+}
+.btn-danger:hover {
+    background-color: #EF4444; /* Red 500 */
+    color: var(--bg-white);
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+}
+
+
 /* Tombol WhatsApp */
 .btn-whatsapp {
     background-color: var(--whatsapp);
@@ -333,7 +356,7 @@ TOMBOL (Buttons)
 }
 
 /* ==================================
-STATUS BERWARNA
+STATUS BERWARNA (BARU)
 ==================================
 */
 .status-badge {
@@ -343,18 +366,38 @@ STATUS BERWARNA
     font-weight: 600;
     border-radius: 20px;
     text-transform: capitalize;
+    border: 1px solid transparent;
 }
-.status-badge.status-menunggu {
-    background-color: #FEF3C7; /* Yellow 100 */
-    color: var(--status-menunggu);
+/* Menunggu & Menunggu Konfirmasi (Kuning) */
+.status-badge.status-menunggu,
+.status-badge.status-menunggu-konfirmasi {
+    background-color: #FFFBEB; /* Yellow 50 */
+    color: #B45309; /* Yellow 700 */
+    border-color: #FDE68A; /* Yellow 200 */
 }
-.status-badge.status-berhasil {
-    background-color: #D1FAE5; /* Green 100 */
-    color: var(--status-berhasil);
+/* Diproses (Biru) */
+.status-badge.status-diproses {
+    background-color: #EFF6FF; /* Blue 50 */
+    color: #1D4ED8; /* Blue 700 */
+    border-color: #BFDBFE; /* Blue 200 */
 }
-.status-badge.status-gagal {
-    background-color: #FEE2E2; /* Red 100 */
-    color: var(--status-gagal);
+/* Dikirim (Teal) */
+.status-badge.status-dikirim {
+    background-color: #F0FDFA; /* Teal 50 */
+    color: #0F766E; /* Teal 700 */
+    border-color: #99F6E4; /* Teal 200 */
+}
+/* Selesai (Hijau) */
+.status-badge.status-selesai {
+    background-color: #F0FDF4; /* Green 50 */
+    color: #15803D; /* Green 700 */
+    border-color: #A7F3D0; /* Green 200 */
+}
+/* Dibatalkan (Merah) */
+.status-badge.status-dibatalkan {
+    background-color: #FEF2F2; /* Red 50 */
+    color: #B91C1C; /* Red 700 */
+    border-color: #FECACA; /* Red 200 */
 }
 
 
@@ -413,6 +456,7 @@ DETAIL PRODUK
     font-size: 1rem;
     color: var(--text-light);
     margin-bottom: 24px;
+    white-space: pre-wrap; /* Agar nl2br() berfungsi baik */
 }
 
 /* Tombol Kembali (Feather Icon) */
@@ -469,6 +513,8 @@ FORM & STATUS
     border: 1px solid var(--border-color);
     border-radius: 8px;
     transition: all 0.3s ease;
+    background-color: var(--bg-white);
+    color: var(--secondary);
 }
 
 .form-control:focus,
@@ -486,6 +532,10 @@ textarea.form-control {
 .form-control-file {
     padding: 10px;
     background: var(--bg-light);
+}
+
+.form-control[type="file"] {
+    padding: 7px;
 }
 
 .status-info {
@@ -510,6 +560,7 @@ textarea.form-control {
     padding: 5px 10px 5px 15px;
     border-radius: 8px;
     max-width: 400px;
+    margin-bottom: 15px;
 }
 .status-info-kode {
     font-family: monospace;
@@ -532,16 +583,17 @@ textarea.form-control {
     margin-bottom: 20px;
     border-radius: 8px;
     font-weight: 600;
+    border: 1px solid transparent;
 }
 .message-box.success {
     background: #ECFDF5;
     color: #065F46;
-    border: 1px solid #A7F3D0;
+    border-color: #A7F3D0;
 }
 .message-box.error {
     background: #FEF2F2;
     color: #991B1B;
-    border: 1px solid #FECACA;
+    border-color: #FECACA;
 }
 
 /* ==================================
@@ -554,21 +606,22 @@ HALAMAN ADMIN (Modern Table)
     width: 100%;
     overflow-x: auto;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     background: var(--bg-white);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .admin-table, .table-container table {
     width: 100%;
-    border-collapse: collapse; /* Ganti jadi collapse */
+    border-collapse: collapse;
     border-spacing: 0;
-    table-layout: fixed; /* Biar rapi */
 }
 
 .admin-table th, .table-container th {
     padding: 14px 16px;
     text-align: left;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--text-light);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -576,10 +629,20 @@ HALAMAN ADMIN (Modern Table)
     background: var(--bg-light);
 }
 
+/* Atur lebar kolom di dashboard */
+.admin-table th:nth-child(1) { width: 15%; } /* Kode */
+.admin-table th:nth-child(2) { width: 15%; } /* Produk */
+.admin-table th:nth-child(3) { width: 20%; } /* Pembeli */
+.admin-table th:nth-child(4) { width: 10%; } /* Total */
+.admin-table th:nth-child(5) { width: 15%; } /* Status */
+.admin-table th:nth-child(6) { width: 25%; } /* Aksi */
+
+
 .admin-table td, .table-container td {
     padding: 16px;
     vertical-align: middle;
     border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
 }
 
 /* Hilangkan border di baris terakhir */
@@ -608,7 +671,20 @@ HALAMAN ADMIN (Modern Table)
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap; /* Biar responsif */
+    gap: 10px;
 }
+
+.btn-add-new {
+    background-color: var(--status-selesai);
+    color: var(--bg-white);
+}
+.btn-add-new:hover {
+    background-color: #065F46;
+    color: var(--bg-white);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
 
 /* Pesan admin di dashboard */
 .admin-message-bubble {
@@ -620,6 +696,28 @@ HALAMAN ADMIN (Modern Table)
     margin-top: 8px;
     font-style: italic;
     color: var(--text-light);
+}
+
+/* Form update status di dashboard */
+.form-update-status {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+}
+.form-update-status .form-control {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+.form-update-status .btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+.form-update-status .pesan-admin-wrapper {
+    margin-bottom: 0;
+}
+.form-update-status .form-group {
+    margin-bottom: 0;
 }
 
 /* ==================================
@@ -638,42 +736,53 @@ HALAMAN LOGIN ADMIN
 .login-container {
     max-width: 450px;
     width: 100%;
-    margin-top: -50px; /* Tarik ke atas sedikit */
 }
 
 .login-title {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     margin-bottom: 25px;
+    color: var(--secondary);
 }
 .login-title .logo-icon {
     width: 40px;
     height: 40px;
     stroke-width: 2.5px;
+    color: var(--primary);
 }
-.login-title h1 {
+.login-title {
     font-size: 1.75rem;
-    margin: 0;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
-.login-container .btn {
+.login-form .btn {
     width: 100%; /* Tombol full width */
 }
 
-.login-links {
+.login-footer-links {
     margin-top: 25px;
     text-align: center;
     font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
 }
-.login-links a {
+.login-footer-links a {
     color: var(--text-light);
     font-weight: 600;
     margin: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
-.login-links a:hover {
+.login-footer-links a:hover {
     color: var(--primary);
+}
+.login-footer-links svg {
+    width: 16px;
+    height: 16px;
 }
 
 
@@ -689,6 +798,7 @@ FOOTER
     border-top: 1px solid var(--border-color);
     background-color: var(--bg-white);
     color: var(--text-light);
+    font-size: 0.9rem;
 }
 
 /* ==================================
@@ -744,7 +854,7 @@ RESPONSIVE DESIGN
         align-items: flex-start;
     }
     
-    .admin-header .btn {
+    .admin-header .btn-add-new {
         margin-top: 10px;
         width: 100%;
         text-align: center;
@@ -778,5 +888,6 @@ RESPONSIVE DESIGN
 
     .login-container {
         margin-top: 0;
+        padding: 20px;
     }
 }

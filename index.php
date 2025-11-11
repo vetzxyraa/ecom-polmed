@@ -22,18 +22,23 @@ $produks = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         $gambar_url = 'assets/images/products/' . htmlspecialchars($gambar_url);
                     }
                     ?>
-                    <img src="<?php echo $gambar_url; ?>" alt="<?php echo htmlspecialchars($produk['nama_produk']); ?>">
+                    <img src="<?php echo $gambar_url; ?>" alt="<?php echo htmlspecialchars($produk['nama_produk']); ?>" onerror="this.style.display='none'">
                 </div>
-                <div class="product-info">
+                <div class->product-info">
                     <h3><?php echo htmlspecialchars($produk['nama_produk']); ?></h3>
                     <p class="price">Rp <?php echo number_format($produk['harga'], 0, ',', '.'); ?></p>
                     <p class="stock">Stok: <?php echo $produk['stok']; ?></p>
                     
                     <div class="product-actions">
-                        <a href="checkout.php?id=<?php echo $produk['id']; ?>" class="btn btn-icon">
-                            <i data-feather="shopping-cart"></i> Pesan
-                        </a>
-                        <a href="product-detail.php?id=<?php echo $produk['id']; ?>" class="btn btn-secondary">
+                        <?php if ($produk['stok'] > 0): ?>
+                            <a href="checkout.php?id=<?php echo $produk['id']; ?>" class="btn btn-icon">
+                                <i data-feather="shopping-cart"></i> Pesan
+                            </a>
+                        <?php else: ?>
+                             <a class="btn btn-secondary" style="cursor: not-allowed; grid-column: span 2;">Stok Habis</a>
+                        <?php endif; ?>
+
+                        <a href="product-detail.php?id=<?php echo $produk['id']; ?>" class="btn btn-secondary" <?php if ($produk['stok'] <= 0) echo 'style="grid-column: span 2;"'; ?>>
                             Detail
                         </a>
                     </div>

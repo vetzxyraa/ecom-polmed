@@ -6,12 +6,11 @@
     <title>Admin Dashboard - GantunganHP Store</title>
     
     <!-- GANTI DENGAN ICON KAMU -->
-    <link rel="icon" href="/assets/images/icons/favicon.ico" sizes="any">
-    <link rel="icon" href="/assets/images/icons/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/images/icons/favicon.ico" sizes="any">
+    <link rel="icon" href="../assets/images/icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="../assets/images/icons/apple-touch-icon.png">
-    <link rel="manifest" href="../assets/images/icons/manifest.webmanifest">
-    <!-- AKHIR DARI KODE ICON -->
-
+    
+    <!-- Perbaikan path CSS ke ../assets/css/style.css -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -27,7 +26,7 @@
         <ul class="nav-links">
             <li><a href="dashboard.php">Pesanan</a></li>
             <li><a href="products.php">Produk</a></li>
-            <li><a href="logout.php" class="btn btn-secondary">Logout</a></li>
+            <li><a href="logout.php" class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.9rem;">Logout</a></li>
         </ul>
         <?php endif; ?>
     </nav>

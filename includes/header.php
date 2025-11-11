@@ -9,10 +9,11 @@
     <link rel="icon" href="assets/images/icons/favicon.ico" sizes="any">
     <link rel="icon" href="assets/images/icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/images/icons/apple-touch-icon.png">
-    <link rel="manifest" href="assets/images/icons/manifest.webmanifest">
+    <!-- <link rel="manifest" href="assets/images/icons/manifest.webmanifest"> --> <!-- Manifest bisa di-skip dulu jika tidak ada -->
     <!-- AKHIR DARI KODE ICON -->
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Perbaikan path CSS ke assets/css/style.css -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
