@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GantunganHP Store</title>
+    
+    <!-- GANTI DENGAN ICON KAMU -->
+    <link rel="icon" href="assets/images/icons/favicon.ico" sizes="any">
+    <link rel="icon" href="assets/images/icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/images/icons/manifest.webmanifest">
+    <!-- AKHIR DARI KODE ICON -->
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>

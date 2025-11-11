@@ -1,4 +1,7 @@
 <?php
+// Ini adalah file baru/update berdasarkan file yang kamu upload sebelumnya
+// Link-link sudah diperbaiki (hyphen -> underscore)
+
 require 'includes/session_check.php';
 require '../config/database.php';
 include 'includes/header.php';
@@ -18,10 +21,14 @@ $sql = "SELECT * FROM produk ORDER BY id DESC";
 $result = mysqli_query($koneksi, $sql);
 ?>
 
-<h1 class="page-title">Manajemen Produk</h1>
+<div class="admin-header">
+    <h1 class="page-title">Manajemen Produk</h1>
+    <!-- FIX: Link diperbaiki ke edit_product.php -->
+    <a href="edit_product.php" class="btn btn-add-new">Tambah Produk Baru</a>
+</div>
+
 <?php echo $message; ?>
 
-<a href="edit-product.php" class="btn btn-add-new">Tambah Produk Baru</a>
 
 <div class="table-container">
     <table>
@@ -40,6 +47,7 @@ $result = mysqli_query($koneksi, $sql);
                 while($row = mysqli_fetch_assoc($result)) {
                     $gambar_url = $row['gambar'];
                     if (filter_var($gambar_url, FILTER_VALIDATE_URL) === FALSE) {
+                        // Pastikan path ../ benar
                         $gambar_url = '../assets/images/products/' . htmlspecialchars($gambar_url);
                     }
             ?>
@@ -49,8 +57,10 @@ $result = mysqli_query($koneksi, $sql);
                 <td>Rp <?php echo number_format($row['harga'], 0, ',', '.'); ?></td>
                 <td><?php echo $row['stok']; ?></td>
                 <td>
-                    <a href="edit-product.php?id=<?php echo $row['id']; ?>" class="btn btn-warning">Edit</a>
-                    <a href="delete-product.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus produk ini?');">Hapus</a>
+                    <!-- FIX: Link diperbaiki ke edit_product.php -->
+                    <a href="edit_product.php?id=<?php echo $row['id']; ?>" class="btn btn-warning">Edit</a>
+                    <!-- FIX: Link diperbaiki ke delete_product.php -->
+                    <a href="delete_product.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus produk ini?');">Hapus</a>
                 </td>
             </tr>
             <?php

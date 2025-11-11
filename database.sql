@@ -1,3 +1,11 @@
+-- Hapus tabel 'pesanan' jika sudah ada
+DROP TABLE IF EXISTS `pesanan`;
+-- Hapus tabel 'produk' jika sudah ada
+DROP TABLE IF EXISTS `produk`;
+-- Hapus tabel 'admin' jika sudah ada
+DROP TABLE IF EXISTS `admin`;
+
+
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
@@ -19,11 +27,13 @@ CREATE TABLE `produk` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- PERUBAHAN: Data dummy produk yang lebih rapi dan generik
 INSERT INTO `produk` (`id`, `nama_produk`, `harga`, `stok`, `deskripsi`, `gambar`) VALUES
-(1, 'Gantungan HP Kucing Lucu', 45000, 25, 'Gantungan HP akrilik berbentuk kucing maneki-neko yang lucu. Tali kuat dan warna cerah. Bawa keberuntungan ke mana pun Anda pergi!', 'https://placehold.co/800x800/FACC15/1F2937?text=Gantungan+Kucing'),
-(2, 'Strap Manik-Manik Bintang', 55000, 15, 'Strap gantungan HP handmade dengan manik-manik berkualitas, liontin bintang, dan mutiara imitasi. Tampil elegan dan kekinian.', 'https://placehold.co/800x800/FACC15/1F2937?text=Strap+Manik'),
-(3, 'Gantungan HP Astronot 3D', 60000, 20, 'Gantungan HP 3D dengan figur astronot lucu sedang duduk di bulan. Bahan silikon berkualitas, awet, dan tidak mudah kotor.', 'https://placehold.co/800x800/FACC15/1F2937?text=Astronot+Bulan'),
-(4, 'Gantungan HP Mutiara Elegan', 75000, 30, 'Strap gantungan HP mewah dengan mutiara air tawar asli. Desain klasik dan elegan untuk melengkapi gaya Anda.', 'https://placehold.co/800x800/FACC15/1F2937?text=Mutiara+Elegan');
+(1, 'Produk 1', 50000, 25, 'Deskripsi singkat untuk Produk 1. Ini adalah produk berkualitas tinggi.', 'https://placehold.co/800x800/E5E7EB/374151?text=Produk+1'),
+(2, 'Produk 2', 55000, 15, 'Deskripsi singkat untuk Produk 2. Bahan terbaik dan desain modern.', 'https://placehold.co/800x800/E5E7EB/374151?text=Produk+2'),
+(3, 'Produk 3', 60000, 20, 'Deskripsi singkat untuk Produk 3. Cocok untuk hadiah atau koleksi pribadi.', 'https://placehold.co/800x800/E5E7EB/374151?text=Produk+3'),
+(4, 'Produk 4', 75000, 30, 'Deskripsi singkat untuk Produk 4. Tampil beda dengan produk eksklusif ini.', 'https://placehold.co/800x800/E5E7EB/374151?text=Produk+4');
+
 
 CREATE TABLE `pesanan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -36,6 +46,7 @@ CREATE TABLE `pesanan` (
   `total_harga` int(11) NOT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'menunggu',
   `tgl_pesan` timestamp NOT NULL DEFAULT current_timestamp(),
+  `pesan_admin` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `kode_pesanan` (`kode_pesanan`),
   KEY `produk_id` (`produk_id`),

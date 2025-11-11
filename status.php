@@ -9,6 +9,7 @@ $message = '';
 $message_type = '';
 
 if (!empty($kode_pesanan)) {
+    // MODIFIKASI: JOIN ke produk DAN ambil pesan_admin
     $sql = "SELECT p.*, pr.nama_produk, pr.gambar 
             FROM pesanan p 
             JOIN produk pr ON p.produk_id = pr.id 
@@ -53,20 +54,26 @@ if (!empty($kode_pesanan)) {
 <div class="status-box">
     <h2 style="margin-bottom: 20px;">Detail Pesanan Anda</h2>
     
-    <p class="status-info">
-        <strong>Kode Pesanan:</strong> 
-        <span class="status-info-kode"><?php echo htmlspecialchars($pesanan['kode_pesanan']); ?></span>
-    </p>
+    <!-- PERUBAHAN: Wrapper untuk Kode Pesanan dan Tombol Salin -->
+    <div class="status-info-kode-wrapper">
+        <strong style="min-width: 120px;">Kode Pesanan:</strong> 
+        <span class-></span>
+        <span id="kode-pesanan-teks" class="status-info-kode"><?php echo htmlspecialchars($pesanan['kode_pesanan']); ?></span>
+        <button class="btn-copy" onclick="salinKode()">
+            <i data-feather="copy"></i> <span id="salin-text">Salin</span>
+        </button>
+    </div>
     
     <?php
         $status = $pesanan['status'];
         $status_class = '';
+        // PERUBAHAN: Status warna
         if (in_array($status, ['menunggu', 'diproses', 'menunggu konfirmasi'])) {
-            $status_class = 'status-menunggu';
+            $status_class = 'status-menunggu'; // Kuning
         } elseif (in_array($status, ['selesai', 'dikirim'])) {
-            $status_class = 'status-berhasil';
+            $status_class = 'status-berhasil'; // Hijau
         } elseif ($status == 'dibatalkan') {
-            $status_class = 'status-gagal';
+            $status_class = 'status-gagal'; // Merah
         }
     ?>
     
@@ -84,16 +91,62 @@ if (!empty($kode_pesanan)) {
     <p class="status-info"><strong>Alamat:</strong> <?php echo htmlspecialchars($pesanan['alamat']); ?></p>
     
     <?php if ($pesanan['status'] == 'menunggu'): ?>
-    <div class="form-container" style="background-color: var(--bg-light); margin-top: 20px; box-shadow: none;">
-        <h3 style="margin-bottom: 15px;">Menunggu Pembayaran</h3>
-        <p style="font-size: 0.9rem;">
-            Silakan lakukan pembayaran ke No. Rek <strong>BCA 123456789</strong> a/n GantunganHP Store.
+    <!-- PERUBAHAN: Pesan pembayaran diganti -->
+    <div class="message-box" style="background-color: var(--bg-light); margin-top: 20px; box-shadow: none;">
+        <h3 style="margin-bottom: 15px; color: var(--primary-dark);">Menunggu Diproses Admin</h3>
+        <p style="font-size: 0.9rem; color: var(--text-light); font-weight: 500;">
+            Pesanan Anda telah kami terima dan akan segera diperiksa oleh admin.
             <br><br>
-            Setelah itu, mohon konfirmasi pembayaran Anda (misalnya via WhatsApp) kepada admin agar pesanan dapat segera diproses.
+            Silakan cek status pesanan Anda secara berkala. Admin mungkin akan menghubungi Anda melalui WhatsApp jika diperlukan.
         </p>
     </div>
     <?php endif; ?>
+
+    <!-- PERUBAHAN: Menampilkan pesan admin jika status 'dibatalkan' dan ada pesan -->
+    <?php if ($pesanan['status'] == 'dibatalkan' && !empty($pesanan['pesan_admin'])): ?>
+    <div class="message-box error admin-message">
+        <h3 style="margin-bottom: 10px; color: #991B1B;">Pesan dari Admin:</h3>
+        <p><?php echo nl2br(htmlspecialchars($pesanan['pesan_admin'])); ?></p>
+    </div>
+    <?php endif; ?>
 </div>
+
+<script>
+// Fungsi untuk menyalin kode pesanan
+function salinKode() {
+    // Ambil teks kode pesanan
+    var kodePesanan = document.getElementById("kode-pesanan-teks").innerText;
+    
+    // Buat elemen textarea sementara
+    var tempTextarea = document.createElement("textarea");
+    tempTextarea.value = kodePesanan;
+    document.body.appendChild(tempTextarea);
+    
+    // Pilih dan salin teks
+    tempTextarea.select();
+    tempTextarea.setSelectionRange(0, 99999); // Untuk mobile
+    
+    try {
+        document.execCommand("copy"); // Salin ke clipboard
+        
+        // Ubah teks tombol
+        var salinButtonText = document.getElementById("salin-text");
+        salinButtonText.innerText = "Tersalin!";
+        
+        // Kembalikan teks tombol setelah 2 detik
+        setTimeout(function() {
+            salinButtonText.innerText = "Salin";
+        }, 2000);
+        
+    } catch (err) {
+        console.error("Gagal menyalin kode: ", err);
+    }
+    
+    // Hapus elemen textarea sementara
+    document.body.removeChild(tempTextarea);
+}
+</script>
+
 <?php endif; ?>
 
 <?php

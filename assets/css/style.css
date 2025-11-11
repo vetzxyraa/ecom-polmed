@@ -17,6 +17,10 @@ TEMA UTAMA (Premium Amber & Grey)
     --status-menunggu: #F59E0B; /* Kuning */
     --status-berhasil: #10B981; /* Hijau */
     --status-gagal: #EF4444;   /* Merah */
+
+    /* Warna Tombol WA */
+    --whatsapp: #25D366;
+    --whatsapp-dark: #128C7E;
 }
 
 /* ==================================
@@ -63,7 +67,7 @@ ul {
 
 .container {
     width: 90%;
-    max-width: 1280px; /* Dilebarkan untuk 5 kolom */
+    max-width: 1280px; /* Dilebarkan untuk 4 kolom */
     margin: 0 auto;
 }
 
@@ -90,7 +94,6 @@ HEADER & NAVIGASI (Grey Sticky)
     top: 0;
     z-index: 50;
     width: 100%;
-    /* Ganti ke abu-abu, hilangkan transparansi */
     background-color: var(--bg-white); 
     border-bottom: 1px solid var(--border-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
@@ -157,14 +160,14 @@ HEADER & NAVIGASI (Grey Sticky)
 }
 
 /* ==================================
-KARTU PRODUK (Katalog 5 Kolom)
+KARTU PRODUK (Katalog 4 Kolom)
 ==================================
 */
 
 .product-grid {
     display: grid;
-    /* 5 kolom di desktop */
-    grid-template-columns: repeat(5, 1fr); 
+    /* 4 kolom di desktop */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 32px; /* FIX: Jarak antar kartu ditambah */
 }
 
@@ -211,7 +214,7 @@ KARTU PRODUK (Katalog 5 Kolom)
 }
 
 .product-info h3 {
-    font-size: 1.1rem; /* Sedikit lebih kecil untuk 5 kolom */
+    font-size: 1.25rem; /* Sedikit lebih besar untuk 4 kolom */
     font-weight: 600;
     margin-bottom: 8px;
     color: var(--secondary);
@@ -221,7 +224,7 @@ KARTU PRODUK (Katalog 5 Kolom)
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    min-height: 2.2rem; /* Tinggi 2 baris */
+    min-height: 2.5rem; /* Tinggi 2 baris */
 }
 
 .product-info .price {
@@ -283,6 +286,17 @@ TOMBOL (Buttons)
     transform: none;
 }
 
+/* Tombol WhatsApp */
+.btn-whatsapp {
+    background-color: var(--whatsapp);
+    color: var(--bg-white);
+}
+.btn-whatsapp:hover {
+    background-color: var(--whatsapp-dark);
+    color: var(--bg-white);
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
+
 /* Tombol dengan Icon */
 .btn-icon {
     display: inline-flex;
@@ -304,6 +318,18 @@ TOMBOL (Buttons)
 }
 .product-actions .btn-secondary {
     background: var(--bg-light);
+}
+
+/* Tombol Aksi di Detail Produk */
+.product-detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.product-detail-actions .btn {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    flex-grow: 1; /* Biar tombol bisa membesar */
 }
 
 /* ==================================
@@ -453,7 +479,7 @@ FORM & STATUS
 }
 
 textarea.form-control {
-    min-height: 120px;
+    min-height: 100px;
     resize: vertical;
 }
 
@@ -473,11 +499,30 @@ textarea.form-control {
     min-width: 120px;
     display: inline-block;
 }
+
+/* Style untuk tombol Salin Kode */
+.status-info-kode-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    padding: 5px 10px 5px 15px;
+    border-radius: 8px;
+    max-width: 400px;
+}
 .status-info-kode {
     font-family: monospace;
-    background: var(--bg-light);
-    padding: 2px 6px;
-    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    flex-grow: 1;
+}
+.btn-copy {
+    padding: 8px 12px;
+    flex-shrink: 0;
+}
+.btn-copy span {
+    margin-left: 5px;
 }
 
 
@@ -504,42 +549,46 @@ HALAMAN ADMIN (Modern Table)
 ==================================
 */
 
-.admin-table {
+/* Wrapper ini untuk dashboard dan manajemen produk */
+.admin-table-wrapper, .table-container {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 8px; /* Memberi jarak antar baris */
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-white);
 }
 
-.admin-table th {
-    padding: 12px 16px;
+.admin-table, .table-container table {
+    width: 100%;
+    border-collapse: collapse; /* Ganti jadi collapse */
+    border-spacing: 0;
+    table-layout: fixed; /* Biar rapi */
+}
+
+.admin-table th, .table-container th {
+    padding: 14px 16px;
     text-align: left;
     font-size: 0.9rem;
     color: var(--text-light);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-color);
+    background: var(--bg-light);
 }
 
-.admin-table td {
+.admin-table td, .table-container td {
     padding: 16px;
-    background: var(--bg-white);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
+    border-bottom: 1px solid var(--border-color);
 }
 
-/* Membuat baris terlihat seperti kartu */
-.admin-table td:first-child {
-    border-left: 1px solid var(--border-color);
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-.admin-table td:last-child {
-    border-right: 1px solid var(--border-color);
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+/* Hilangkan border di baris terakhir */
+.admin-table tr:last-child td,
+.table-container tr:last-child td {
+    border-bottom: none;
 }
 
-.admin-table img {
+.order-image, .admin-table img, .table-container img {
     width: 60px;
     height: 60px;
     object-fit: cover;
@@ -548,7 +597,7 @@ HALAMAN ADMIN (Modern Table)
 }
 
 .admin-table .btn,
-.admin-table .btn-secondary {
+.table-container .btn {
     padding: 8px 12px;
     font-size: 0.9rem;
     margin-right: 5px;
@@ -560,6 +609,73 @@ HALAMAN ADMIN (Modern Table)
     align-items: center;
     margin-bottom: 1.5rem;
 }
+
+/* Pesan admin di dashboard */
+.admin-message-bubble {
+    font-size: 0.85rem;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    font-style: italic;
+    color: var(--text-light);
+}
+
+/* ==================================
+HALAMAN LOGIN ADMIN
+==================================
+*/
+.login-page-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+    padding: 20px;
+}
+
+.login-container {
+    max-width: 450px;
+    width: 100%;
+    margin-top: -50px; /* Tarik ke atas sedikit */
+}
+
+.login-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.login-title .logo-icon {
+    width: 40px;
+    height: 40px;
+    stroke-width: 2.5px;
+}
+.login-title h1 {
+    font-size: 1.75rem;
+    margin: 0;
+}
+
+.login-container .btn {
+    width: 100%; /* Tombol full width */
+}
+
+.login-links {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.login-links a {
+    color: var(--text-light);
+    font-weight: 600;
+    margin: 0 10px;
+}
+.login-links a:hover {
+    color: var(--primary);
+}
+
 
 /* ==================================
 FOOTER
@@ -585,6 +701,10 @@ RESPONSIVE DESIGN
     .product-grid {
         /* 3 kolom di tablet */
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .admin-table, .table-container table {
+        table-layout: auto; /* Balikin ke auto */
     }
 }
 
@@ -631,15 +751,17 @@ RESPONSIVE DESIGN
     }
 
     /* Membuat tabel admin bisa di-scroll horizontal */
-    .admin-table-wrapper {
+    .admin-table-wrapper, .table-container {
         width: 100%;
         overflow-x: auto;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
     }
     
-    .admin-table {
-        min-width: 800px;
+    .admin-table, .table-container table {
+        min-width: 800px; /* Paksa tabel jadi lebar */
+    }
+
+    .product-detail-actions {
+        flex-direction: column;
     }
 }
 
@@ -652,5 +774,9 @@ RESPONSIVE DESIGN
     
     .product-actions {
         grid-template-columns: 1fr; /* Tombol jadi 1 kolom */
+    }
+
+    .login-container {
+        margin-top: 0;
     }
 }
