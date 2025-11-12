@@ -141,7 +141,7 @@ include 'includes/header.php';
         <div class="message-box success"><?php echo $message; ?></div>
         <p style="margin: 20px 0; font-size: 1.05rem;">Silakan cek status pesanan Anda secara berkala di halaman "Cek Status" dengan menggunakan kode pesanan di atas.</p>
         <a href="status.php?kode_pesanan=<?php echo $new_order_code; ?>" class="btn">Cek Status Sekarang</a>
-        <a href="index.php" class="btn btn-secondary" style="margin-top: 15px;">Kembali ke Home</a>
+        <a href="index.php" class="btn btn-secondary" style="margin-top: 15px;">Kembali</a>
     </div>
 <?php endif; ?>
 

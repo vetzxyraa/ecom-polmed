@@ -23,7 +23,7 @@ include 'includes/header.php';
 ?>
 
 <a href="index.php" class="back-button">
-    <i data-feather="arrow-left"></i> Kembali ke Katalog
+    <i data-feather="arrow-left"></i> Kembali
 </a>
 
 <div class="product-detail-container">

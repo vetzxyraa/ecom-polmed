@@ -3,7 +3,7 @@
 
 <footer class="footer">
     <div class="container">
-        &copy; <?php echo date('Y'); ?> Admin Panel GantunganHP Store.
+        Admin Panel
     </div>
 </footer>
 

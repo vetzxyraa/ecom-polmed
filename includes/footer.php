@@ -3,7 +3,7 @@
 
 <footer class="footer">
     <div class="container">
-        <p>&copy; <?php echo date('Y'); ?> GantunganHP Store. All Rights Reserved.</p>
+        <p>PoliTeknik Medan</p>
     </div>
 </footer>
 

@@ -133,7 +133,7 @@ include 'includes/header.php';
 
 <!-- Tombol kembali -->
 <a href="products.php" class="back-button">
-    <i data-feather="arrow-left"></i> Kembali ke Daftar Produk
+    <i data-feather="arrow-left"></i> Kembali
 </a>
 
 <h1 class="page-title"><?php echo $page_title; ?></h1>

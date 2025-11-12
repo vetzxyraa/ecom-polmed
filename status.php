@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($kode_pesanan)) {
 ?>
 
 <a href="index.php" class="back-button">
-    <i data-feather="arrow-left"></i> Kembali ke Home
+    <i data-feather="arrow-left"></i> Kembali
 </a>
 
 <h1 class="page-title">Cek Status Pesanan</h1>

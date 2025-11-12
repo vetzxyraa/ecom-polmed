@@ -7,7 +7,7 @@ $result = mysqli_query($koneksi, $sql);
 $produks = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 
-<h1 class="page-title">Katalog Produk</h1>
+<h1 class="page-title">Produk</h1>
 
 <div class="product-grid">
     <?php if (empty($produks)): ?>

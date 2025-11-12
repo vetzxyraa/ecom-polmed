@@ -26,6 +26,7 @@
         <ul class="nav-links">
             <li><a href="dashboard.php">Pesanan</a></li>
             <li><a href="products.php">Produk</a></li>
+            <li><a href="settings.php">Pengaturan</a></li>
             <li><a href="logout.php" class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.9rem;">Logout</a></li>
         </ul>
         <?php endif; ?>

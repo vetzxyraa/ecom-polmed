@@ -15,7 +15,7 @@ $link_wa = "https://api.whatsapp.com/send?phone={$nomor_wa}&text={$pesan_wa}";
 
 <h1 class="page-title">Hubungi Kami</h1>
 <p style="text-align: center; max-width: 600px; margin: -2rem auto 2rem auto; font-size: 1.1rem; color: var(--text-light);">
-    Punya pertanyaan atau butuh bantuan? Jangan ragu untuk menghubungi kami melalui salah satu saluran di bawah ini.
+    Punya pertanyaan atau butuh bantuan?
 </p>
 
 <!-- Menggunakan style 'status-box' agar rapi -->
@@ -25,11 +25,11 @@ $link_wa = "https://api.whatsapp.com/send?phone={$nomor_wa}&text={$pesan_wa}";
     <div style="margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 25px;">
         <h3 style="display: flex; align-items: center; gap: 10px; font-size: 1.25rem; font-weight: 600; margin-bottom: 15px;">
             <i data-feather="message-circle" style="color: var(--whatsapp);"></i>
-            WhatsApp (Respon Cepat)
+            WhatsApp
         </h3>
         <!-- FIX: Link WA dinamis -->
         <a href="<?php echo $link_wa; ?>" target="_blank" class="btn btn-icon" style="background-color: var(--whatsapp); color: white;">
-            <i data-feather="external-link"></i> Chat Sekarang di WhatsApp
+            <i data-feather="external-link"></i> Chat Sekarang
         </a>
     </div>
 
@@ -50,13 +50,13 @@ $link_wa = "https://api.whatsapp.com/send?phone={$nomor_wa}&text={$pesan_wa}";
     <div>
         <h3 style="display: flex; align-items: center; gap: 10px; font-size: 1.25rem; font-weight: 600; margin-bottom: 10px;">
             <i data-feather="map-pin" style="color: var(--status-dibatalkan);"></i>
-            Lokasi (Workshop)
+            Lokasi
         </h3>
         <!-- FIX: Alamat dinamis -->
         <p style="font-size: 1.1rem; color: var(--secondary); font-weight: 600;">
             <?php echo $alamat; ?>
         </p>
-        <small>(Hanya workshop, belum melayani pembelian offline)</small>
+        <small>(belum melayani pembelian offline)</small>
     </div>
 
 </div>
