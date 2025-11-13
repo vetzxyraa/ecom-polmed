@@ -1,11 +1,6 @@
-/* ==================================
-HEADER & NAVIGASI
-==================================
-*/
-
 .container {
     width: 90%;
-    max-width: 1280px; /* Dilebarkan untuk 4 kolom */
+    max-width: 1280px; 
     margin: 0 auto;
 }
 
@@ -29,7 +24,7 @@ HEADER & NAVIGASI
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px; /* Jarak antara icon dan teks */
+    gap: 10px; 
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--secondary);
@@ -66,35 +61,26 @@ HEADER & NAVIGASI
 }
 
 .btn-nav-admin {
-    background-color: var(--secondary);
-    color: var(--bg-white);
+    background-color: var(--bg-white);
+    color: var(--primary);
     padding: 8px 16px;
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
+    border: 2px solid var(--primary);
 }
 .btn-nav-admin:hover {
-    background-color: #000;
-    color: var(--bg-white);
+    background-color: var(--primary);
+    color: var(--secondary);
     border-bottom: none;
+    border-color: var(--primary);
 }
-
-/* ==================================
-GRID PRODUK
-==================================
-*/
 
 .product-grid {
     display: grid;
-    /* 4 kolom di desktop */
     grid-template-columns: repeat(4, 1fr); 
-    gap: 32px; /* FIX: Jarak antar kartu ditambah */
+    gap: 32px; 
 }
-
-/* ==================================
-DETAIL PRODUK
-==================================
-*/
 
 .product-detail-container {
     display: flex;
@@ -146,13 +132,8 @@ DETAIL PRODUK
     font-size: 1rem;
     color: var(--text-light);
     margin-bottom: 24px;
-    white-space: pre-wrap; /* Agar nl2br() berfungsi baik */
+    white-space: pre-wrap; 
 }
-
-/* ==================================
-FORM & STATUS LAYOUT
-==================================
-*/
 
 .form-container, .status-box {
     max-width: 700px;

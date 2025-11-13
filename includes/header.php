@@ -26,6 +26,11 @@ function get_global_setting($key, $default = '') {
     <link rel="icon" href="assets/images/icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/images/icons/apple-touch-icon.png">
 
+    <script>
+        const startTime = Date.now();
+        const MIN_LOAD_TIME = 1500; 
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>

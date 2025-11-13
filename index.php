@@ -24,7 +24,7 @@ $produks = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     ?>
                     <img src="<?php echo $gambar_url; ?>" alt="<?php echo htmlspecialchars($produk['nama_produk']); ?>" onerror="this.style.display='none'">
                 </div>
-                <div class->product-info">
+                <div class="product-info">
                     <h3><?php echo htmlspecialchars($produk['nama_produk']); ?></h3>
                     <p class="price">Rp <?php echo number_format($produk['harga'], 0, ',', '.'); ?></p>
                     <p class="stock">Stok: <?php echo $produk['stok']; ?></p>

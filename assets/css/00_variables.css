@@ -1,24 +1,16 @@
-/* ==================================
-TEMA UTAMA (Premium Amber & Grey)
-==================================
-*/
-
 :root {
-    --primary: #F59E0B; /* Amber 500 */
-    --primary-dark: #D97706; /* Amber 600 */
-    --secondary: #374151; /* Gray 700 */
-    --text-light: #6B7280; /* Gray 500 */
-    --bg-light: #F9FAFB; /* Gray 50 */
+    --primary: #F59E0B; 
+    --primary-dark: #D97706; 
+    --secondary: #374151; 
+    --text-light: #6B7280; 
+    --bg-light: #F9FAFB; 
     --bg-white: #FFFFFF;
-    --border-color: #E5E7EB; /* Gray 200 */
+    --border-color: #E5E7EB; 
     
-    /* Warna Status */
-    /* FIX: Hanya 3 status */
-    --status-menunggu: #F59E0B; /* Kuning */
-    --status-selesai: #10B981;  /* Hijau */
-    --status-dibatalkan: #EF4444; /* Merah */
+    --status-menunggu: #F59E0B; 
+    --status-selesai: #10B981;  
+    --status-dibatalkan: #EF4444; 
 
-    /* Warna Tombol WA */
     --whatsapp: #25D366;
     --whatsapp-dark: #128C7E;
 }

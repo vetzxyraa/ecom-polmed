@@ -1,9 +1,3 @@
-/* ==================================
-HALAMAN ADMIN (Modern Table)
-==================================
-*/
-
-/* Wrapper ini untuk dashboard dan manajemen produk */
 .admin-table-wrapper, .table-container {
     width: 100%;
     overflow-x: auto;
@@ -31,13 +25,12 @@ HALAMAN ADMIN (Modern Table)
     background: var(--bg-light);
 }
 
-/* Atur lebar kolom di dashboard */
-.admin-table th:nth-child(1) { width: 15%; } /* Kode */
-.admin-table th:nth-child(2) { width: 15%; } /* Produk */
-.admin-table th:nth-child(3) { width: 20%; } /* Pembeli */
-.admin-table th:nth-child(4) { width: 10%; } /* Total */
-.admin-table th:nth-child(5) { width: 15%; } /* Status */
-.admin-table th:nth-child(6) { width: 25%; } /* Aksi */
+.admin-table th:nth-child(1) { width: 15%; } 
+.admin-table th:nth-child(2) { width: 15%; } 
+.admin-table th:nth-child(3) { width: 20%; } 
+.admin-table th:nth-child(4) { width: 10%; } 
+.admin-table th:nth-child(5) { width: 15%; } 
+.admin-table th:nth-child(6) { width: 25%; } 
 
 
 .admin-table td, .table-container td {
@@ -47,7 +40,6 @@ HALAMAN ADMIN (Modern Table)
     font-size: 0.95rem;
 }
 
-/* Hilangkan border di baris terakhir */
 .admin-table tr:last-child td,
 .table-container tr:last-child td {
     border-bottom: none;
@@ -73,7 +65,7 @@ HALAMAN ADMIN (Modern Table)
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-    flex-wrap: wrap; /* Biar responsif */
+    flex-wrap: wrap; 
     gap: 10px;
 }
 
@@ -88,7 +80,6 @@ HALAMAN ADMIN (Modern Table)
 }
 
 
-/* Pesan admin di dashboard */
 .admin-message-bubble {
     font-size: 0.85rem;
     background: var(--bg-light);
@@ -100,7 +91,6 @@ HALAMAN ADMIN (Modern Table)
     color: var(--text-light);
 }
 
-/* Form update status di dashboard */
 .form-update-status {
     display: flex;
     flex-direction: column;
@@ -122,10 +112,6 @@ HALAMAN ADMIN (Modern Table)
     margin-bottom: 0;
 }
 
-/* ==================================
-HALAMAN LOGIN ADMIN
-==================================
-*/
 .login-page-wrapper {
     display: flex;
     align-items: center;
@@ -156,12 +142,12 @@ HALAMAN LOGIN ADMIN
 }
 .login-title h1 {
     font-size: 1.75rem;
-    margin-bottom: 0; /* Dihapus margin bawah */
+    margin-bottom: 0; 
     text-align: center;
 }
 
 .login-form .btn {
-    width: 100%; /* Tombol full width */
+    width: 100%; 
 }
 
 .login-footer-links {
@@ -187,14 +173,9 @@ HALAMAN LOGIN ADMIN
     height: 16px;
 }
 
-/* ==================================
-HALAMAN EDIT PRODUK (UI Balance)
-==================================
-*/
-/* FIX: Wrapper untuk form edit produk */
 .form-edit-product-wrapper {
     display: grid;
-    grid-template-columns: 1fr 300px; /* Kolom form | Kolom gambar */
+    grid-template-columns: 1fr 300px; 
     gap: 32px;
 }
 
@@ -206,5 +187,5 @@ HALAMAN EDIT PRODUK (UI Balance)
     width: 100%;
     max-width: 300px;
     position: sticky;
-    top: 90px; /* 70px navbar + 20px padding */
+    top: 90px; 
 }

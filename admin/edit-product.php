@@ -9,11 +9,12 @@ $produk = [
     'harga' => '',
     'stok' => '',
     'deskripsi' => '',
-    'gambar' => ''
+    'gambar' => '',
+    'gambar2' => ''
 ];
 $page_title = "Tambah Produk Baru";
 $message = '';
-$message_type = 'error'; // Default ke error, ubah ke success jika berhasil
+$message_type = 'error'; 
 
 if ($id > 0) {
     $page_title = "Edit Produk";
@@ -32,113 +33,131 @@ if ($id > 0) {
     }
 }
 
+function process_image_upload($file_input_name, $existing_image_name, $product_name_prefix) {
+    global $message, $message_type;
+    $new_image_name = $existing_image_name;
+    
+    if (isset($_FILES[$file_input_name]) && $_FILES[$file_input_name]['error'] == UPLOAD_ERR_OK) {
+        $target_dir = "../assets/images/products/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+        
+        $file_info = pathinfo($_FILES[$file_input_name]["name"]);
+        $file_extension = strtolower($file_info['extension']);
+        $new_image_name = $product_name_prefix . time() . "." . $file_extension;
+        $target_file = $target_dir . $new_image_name;
+        
+        $allowed_types = ['jpg', 'jpeg', 'png'];
+        $max_file_size = 2 * 1024 * 1024; // 2MB
+
+        if (!in_array($file_extension, $allowed_types)) {
+            $message .= " Gagal upload $file_input_name: Format file tidak didukung. ";
+            $message_type = 'error';
+            return $existing_image_name;
+        } elseif ($_FILES[$file_input_name]["size"] > $max_file_size) {
+            $message .= " Gagal upload $file_input_name: Ukuran file terlalu besar (Maks 2MB). ";
+            $message_type = 'error';
+            return $existing_image_name;
+        } elseif (!getimagesize($_FILES[$file_input_name]["tmp_name"])) {
+             $message .= " Gagal upload $file_input_name: File bukan gambar. ";
+             $message_type = 'error';
+             return $existing_image_name;
+        } else {
+            if (move_uploaded_file($_FILES[$file_input_name]["tmp_name"], $target_file)) {
+                if (!empty($existing_image_name) && filter_var($existing_image_name, FILTER_VALIDATE_URL) === FALSE && file_exists($target_dir . $existing_image_name)) {
+                    unlink($target_dir . $existing_image_name);
+                }
+                return $new_image_name;
+            } else {
+                $message .= " Gagal memindahkan file $file_input_name. ";
+                $message_type = 'error';
+                return $existing_image_name;
+            }
+        }
+    } elseif (isset($_FILES[$file_input_name]) && $_FILES[$file_input_name]['error'] != UPLOAD_ERR_NO_FILE) {
+        $message .= " Error upload $file_input_name: Kode " . $_FILES[$file_input_name]['error'];
+        $message_type = 'error';
+    }
+    
+    return $new_image_name;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = (int)$_POST['id'];
     $nama_produk = mysqli_real_escape_string($koneksi, $_POST['nama_produk']);
     $harga = (int)$_POST['harga'];
     $stok = (int)$_POST['stok'];
     $deskripsi = mysqli_real_escape_string($koneksi, $_POST['deskripsi']);
+    
     $gambar_lama = mysqli_real_escape_string($koneksi, $_POST['gambar_lama']);
-    $gambar_baru_nama = $gambar_lama; // Default ke gambar lama
+    $gambar_lama_2 = mysqli_real_escape_string($koneksi, $_POST['gambar_lama_2']);
 
-    // Validasi input dasar
     if (empty($nama_produk) || $harga <= 0 || $stok < 0) {
         $message = "Nama produk, harga (harus > 0), dan stok (harus >= 0) wajib diisi.";
     } else {
-        // Logika upload gambar baru
-        if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] == UPLOAD_ERR_OK) {
-            $target_dir = "../assets/images/products/";
-            if (!is_dir($target_dir)) {
-                mkdir($target_dir, 0755, true);
-            }
-            
-            $file_info = pathinfo($_FILES["gambar"]["name"]);
-            $file_extension = strtolower($file_info['extension']);
-            $gambar_baru_nama = "product_" . time() . "." . $file_extension;
-            $target_file = $target_dir . $gambar_baru_nama;
-            
-            $allowed_types = ['jpg', 'jpeg', 'png'];
-            $max_file_size = 2 * 1024 * 1024; // 2MB
+        $gambar_baru_nama = process_image_upload('gambar', $gambar_lama, "product1_");
+        $gambar_baru_nama_2 = process_image_upload('gambar2', $gambar_lama_2, "product2_");
 
-            if (!in_array($file_extension, $allowed_types)) {
-                $message = "Gagal upload: Format file tidak didukung. Hanya .jpg, .jpeg, atau .png.";
-            } elseif ($_FILES["gambar"]["size"] > $max_file_size) {
-                $message = "Gagal upload: Ukuran file terlalu besar (Maks 2MB).";
-            } elseif (!getimagesize($_FILES["gambar"]["tmp_name"])) {
-                 $message = "Gagal upload: File yang diupload bukan gambar.";
-            } else {
-                if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
-                    // Hapus gambar lama jika ada, bukan URL, dan beda nama
-                    if (!empty($gambar_lama) && filter_var($gambar_lama, FILTER_VALIDATE_URL) === FALSE && file_exists($target_dir . $gambar_lama)) {
-                        unlink($target_dir . $gambar_lama);
-                    }
-                    $message = "Gambar baru berhasil diupload."; // Pesan sementara, akan ditimpa sukses
-                    $message_type = 'success';
-                } else {
-                    $message = "Terjadi kesalahan saat memindahkan file gambar.";
-                    $gambar_baru_nama = $gambar_lama; // Kembalikan ke gambar lama jika gagal
-                }
-            }
-        } elseif (isset($_FILES['gambar']) && $_FILES['gambar']['error'] != UPLOAD_ERR_NO_FILE) {
-            // Error upload selain "tidak ada file"
-            $message = "Terjadi error saat upload gambar: Kode " . $_FILES['gambar']['error'];
+        if ($id == 0 && empty($gambar_baru_nama)) {
+             $gambar_baru_nama = "https://placehold.co/800x800/E5E7EB/374151?text=" . urlencode($nama_produk);
+        }
+        
+        if ($message_type !== 'error') {
+            $message = "Produk berhasil disimpan.";
+            $message_type = 'success';
         }
 
-        // Jika tidak ada error dari validasi gambar ATAU tidak ada gambar baru diupload
-        if (empty($message) || $message_type == 'success') {
-            
-            // Logika Placeholder: Jika ini produk BARU (id=0) dan tidak ada gambar yg diupload
-            if ($id == 0 && empty($gambar_baru_nama)) {
-                 $gambar_baru_nama = "https://placehold.co/800x800/E5E7EB/374151?text=" . urlencode($nama_produk);
+        if ($id > 0) {
+            $sql = "UPDATE produk SET nama_produk = ?, harga = ?, stok = ?, deskripsi = ?, gambar = ?, gambar2 = ? WHERE id = ?";
+            if ($stmt = mysqli_prepare($koneksi, $sql)) {
+                mysqli_stmt_bind_param($stmt, "siisssi", $nama_produk, $harga, $stok, $deskripsi, $gambar_baru_nama, $gambar_baru_nama_2, $id);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
+                header("Location: products.php?status=success");
+                exit;
             }
-            
-            // Proses ke Database
-            if ($id > 0) {
-                // Update
-                $sql = "UPDATE produk SET nama_produk = ?, harga = ?, stok = ?, deskripsi = ?, gambar = ? WHERE id = ?";
-                if ($stmt = mysqli_prepare($koneksi, $sql)) {
-                    mysqli_stmt_bind_param($stmt, "siissi", $nama_produk, $harga, $stok, $deskripsi, $gambar_baru_nama, $id);
-                    mysqli_stmt_execute($stmt);
-                    mysqli_stmt_close($stmt);
-                    header("Location: products.php?status=success");
-                    exit;
-                }
-            } else {
-                // Insert
-                $sql = "INSERT INTO produk (nama_produk, harga, stok, deskripsi, gambar) VALUES (?, ?, ?, ?, ?)";
-                if ($stmt = mysqli_prepare($koneksi, $sql)) {
-                    mysqli_stmt_bind_param($stmt, "siiss", $nama_produk, $harga, $stok, $deskripsi, $gambar_baru_nama);
-                    mysqli_stmt_execute($stmt);
-                    mysqli_stmt_close($stmt);
-                    header("Location: products.php?status=success");
-                    exit;
-                }
+        } else {
+            $sql = "INSERT INTO produk (nama_produk, harga, stok, deskripsi, gambar, gambar2) VALUES (?, ?, ?, ?, ?, ?)";
+            if ($stmt = mysqli_prepare($koneksi, $sql)) {
+                mysqli_stmt_bind_param($stmt, "siisss", $nama_produk, $harga, $stok, $deskripsi, $gambar_baru_nama, $gambar_baru_nama_2);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
+                header("Location: products.php?status=success");
+                exit;
             }
-            // Jika query gagal (jarang terjadi jika koneksi berhasil)
-            $message = "Gagal menyimpan data ke database.";
-            $message_type = 'error';
         }
+        $message = "Gagal menyimpan data ke database.";
+        $message_type = 'error';
     }
     
-    // Set ulang nilai $produk untuk ditampilkan di form jika terjadi error
     $produk['nama_produk'] = $nama_produk;
     $produk['harga'] = $harga;
     $produk['stok'] = $stok;
     $produk['deskripsi'] = $deskripsi;
-    $produk['gambar'] = $gambar_baru_nama; // Tampilkan gambar baru (jika gagal) atau lama
+    $produk['gambar'] = $gambar_baru_nama;
+    $produk['gambar2'] = $gambar_baru_nama_2;
 }
 
 include 'includes/header.php';
+
+function display_image_preview($gambar_url) {
+    if (!empty($gambar_url)) {
+        if (filter_var($gambar_url, FILTER_VALIDATE_URL) === FALSE) {
+            $gambar_url = '../assets/images/products/' . htmlspecialchars($gambar_url);
+        }
+        echo '<img src="' . $gambar_url . '" alt="Gambar Produk" style="max-width: 150px; height: auto; display: block; margin-bottom: 10px; border-radius: 4px; border: 1px solid var(--border-color);">';
+    }
+}
 ?>
 
-<!-- Tombol kembali -->
 <a href="products.php" class="back-button">
     <i data-feather="arrow-left"></i> Kembali
 </a>
 
 <h1 class="page-title"><?php echo $page_title; ?></h1>
 
-<div class_alias="form-container">
+<div class="form-container">
 
     <?php if ($message): ?>
         <div class="message-box <?php echo $message_type; ?>"><?php echo htmlspecialchars($message); ?></div>
@@ -147,6 +166,7 @@ include 'includes/header.php';
     <form action="edit-product.php<?php echo ($id > 0) ? '?id='.$id : ''; ?>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?php echo $produk['id']; ?>">
         <input type="hidden" name="gambar_lama" value="<?php echo htmlspecialchars($produk['gambar']); ?>">
+        <input type="hidden" name="gambar_lama_2" value="<?php echo htmlspecialchars($produk['gambar2']); ?>">
         
         <div class="form-group">
             <label for="nama_produk">Nama Produk</label>
@@ -164,24 +184,27 @@ include 'includes/header.php';
             <label for="deskripsi">Deskripsi</label>
             <textarea id="deskripsi" name="deskripsi" class="form-control" required><?php echo htmlspecialchars($produk['deskripsi']); ?></textarea>
         </div>
+        
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;">
+
         <div class="form-group">
-            <label for="gambar">Gambar Produk</label>
-            <?php if (!empty($produk['gambar'])): 
-                $gambar_url = $produk['gambar'];
-                // Cek jika gambar adalah URL dari placehold.co atau file lokal
-                if (filter_var($gambar_url, FILTER_VALIDATE_URL) === FALSE) {
-                    $gambar_url = '../assets/images/products/' . htmlspecialchars($gambar_url);
-                }
-            ?>
-                <img src="<?php echo $gambar_url; ?>" alt="Gambar Produk Saat Ini" style="max-width: 150px; height: auto; display: block; margin-bottom: 10px; border-radius: 4px; border: 1px solid var(--border-color);">
-            <?php endif; ?>
-            
+            <label for="gambar">Gambar Produk 1 (Utama)</label>
+            <?php display_image_preview($produk['gambar']); ?>
             <input type="file" id="gambar" name="gambar" class="form-control form-control-file" accept="image/jpeg,image/png">
-            <small>Hanya file .jpg atau .png. Maks 2MB. Kosongkan jika tidak ingin mengubah gambar.</small>
+            <small>Kosongkan jika tidak ingin mengubah gambar 1.</small>
         </div>
         
+        <div class="form-group">
+            <label for="gambar2">Gambar Produk 2 (Opsional)</label>
+            <?php display_image_preview($produk['gambar2']); ?>
+            <input type="file" id="gambar2" name="gambar2" class="form-control form-control-file" accept="image/jpeg,image/png">
+            <small>Kosongkan jika tidak ingin mengubah gambar 2.</small>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;">
+
         <button type="submit" class="btn">Simpan Produk</button>
-        <a href="products.php" class="btn btn-secondary" style="margin-left: 10px;">Batal</a>
+        <a href="products.php" class.btn-secondary" style="margin-left: 10px;">Batal</a>
     </form>
 </div>
 

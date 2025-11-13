@@ -2,7 +2,6 @@
 session_start();
 require '../config/database.php';
 
-// Cek jika sudah login, lempar ke dashboard
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
     header("Location: dashboard.php");
     exit;
@@ -47,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($koneksi);
 }
 
-// Tidak lagi pakai include 'includes/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -56,23 +54,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - GantunganHP Store</title>
     
-    <!-- GANTI DENGAN ICON KAMU -->
-    <link rel="icon" href="/assets/images/icons/favicon.ico" sizes="any">
-    <link rel="icon" href="/assets/images/icons/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/images/icons/favicon.ico" sizes="any">
+    <link rel="icon" href="../assets/images/icons/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="../assets/images/icons/apple-touch-icon.png">
     <link rel="manifest" href="../assets/images/icons/manifest.webmanifest">
-    <!-- AKHIR DARI KODE ICON -->
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Link CSS mengarah ke ../assets/css/style.css -->
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
-<!-- Wrapper baru untuk centering -->
 <div class="login-page-wrapper">
     <div class="login-container">
-        <!-- Judul login baru yang lebih rapi -->
         <h1 class="login-title">
             <i data-feather="package" class="logo-icon"></i>
             Admin Panel
@@ -82,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="message-box error"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <!-- Form dengan class baru -->
         <form action="index.php" method="POST" class="login-form">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -92,11 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
-            <!-- Tombol dengan class baru -->
             <button type="submit" class="btn btn-login">Login</button>
         </form>
         
-        <!-- Link "Home" dan "Cek Status" dipindah ke sini -->
         <div class="login-footer-links">
             <a href="../index.php"><i data-feather="home"></i> Ke Home</a>
             <a href="../status.php"><i data-feather="check-square"></i> Cek Status</a>

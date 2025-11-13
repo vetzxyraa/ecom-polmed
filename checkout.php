@@ -1,6 +1,6 @@
 <?php
 require 'config/database.php';
-session_start(); // Mulai session untuk flash message
+session_start(); 
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $produk = null;
@@ -9,7 +9,6 @@ $message_type = '';
 $order_success = false;
 $new_order_code = '';
 
-// Cek flash message dari redirect
 if (isset($_SESSION['flash_message'])) {
     $message = $_SESSION['flash_message'];
     $message_type = $_SESSION['flash_message_type'];
@@ -49,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $alamat = mysqli_real_escape_string($koneksi, $_POST['alamat']);
     $jumlah = (int)$_POST['jumlah'];
     
-    // Validasi ulang stok saat POST
     $sql_check_stok = "SELECT stok FROM produk WHERE id = ?";
     if ($stmt_check = mysqli_prepare($koneksi, $sql_check_stok)) {
          mysqli_stmt_bind_param($stmt_check, "i", $id);
@@ -57,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          mysqli_stmt_bind_result($stmt_check, $stok_saat_ini);
          mysqli_stmt_fetch($stmt_check);
          mysqli_stmt_close($stmt_check);
-         $produk['stok'] = $stok_saat_ini; // Update stok terbaru
+         $produk['stok'] = $stok_saat_ini; 
     }
 
     if ($jumlah > 0 && $jumlah <= $produk['stok']) {

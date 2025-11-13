@@ -3,8 +3,7 @@ include 'includes/session_check.php';
 require '../config/database.php';
 include 'includes/header.php';
 
-// Daftar status yang konsisten
-$list_status = ['menunggu', 'menunggu konfirmasi', 'diproses', 'dikirim', 'selesai', 'dibatalkan'];
+$list_status = ['menunggu', 'berhasil', 'gagal'];
 
 $sql = "SELECT pesanan.*, produk.nama_produk 
         FROM pesanan 
@@ -53,7 +52,12 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <td>
                         <?php
                             $status = $pesanan['status'];
-                            $status_class = 'status-' . str_replace(' ', '-', $status); // misal: status-menunggu-konfirmasi
+                            $status_class = 'status-menunggu';
+                            if ($status == 'berhasil') {
+                                $status_class = 'status-selesai';
+                            } elseif ($status == 'gagal') {
+                                $status_class = 'status-dibatalkan';
+                            }
                         ?>
                         <span class="status-badge <?php echo $status_class; ?>">
                             <?php echo htmlspecialchars($status); ?>
@@ -66,23 +70,21 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         <?php endif; ?>
                     </td>
                     <td>
-                         <!-- Form update status -->
                          <form action="update_order.php" method="POST" class="form-update-status">
                             <input type="hidden" name="pesanan_id" value="<?php echo $pesanan['id']; ?>">
                             
                             <div class="form-group" style="margin-bottom: 10px;">
-                                <select name="status" class="form-control" onchange="togglePesanAdmin(this)">
+                                <select name="status" class="form-control">
                                     <?php foreach ($list_status as $status_option): ?>
                                         <option value="<?php echo $status_option; ?>" <?php echo ($pesanan['status'] == $status_option) ? 'selected' : ''; ?>>
-                                            <?php echo ucfirst($status_option); // Huruf awal kapital ?>
+                                            <?php echo ucfirst($status_option); ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             
-                            <!-- Textarea untuk pesan admin, defaultnya tersembunyi -->
-                            <div class="form-group pesan-admin-wrapper" <?php echo ($pesanan['status'] != 'dibatalkan') ? 'style="display: none;"' : ''; ?>>
-                                <textarea name="pesan_admin" class="form-control" placeholder="Alasan pembatalan (jika dibatalkan)..."><?php echo htmlspecialchars($pesanan['pesan_admin']); ?></textarea>
+                            <div class="form-group pesan-admin-wrapper">
+                                <textarea name="pesan_admin" class="form-control" placeholder="Pesan custom untuk pelanggan..."><?php echo htmlspecialchars($pesanan['pesan_admin']); ?></textarea>
                             </div>
                             
                             <button type="submit" class="btn">Update</button>
@@ -96,20 +98,16 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
 </div>
 
 <script>
-// Fungsi untuk menampilkan/menyembunyikan field pesan admin
 function togglePesanAdmin(selectElement) {
-    // Cari form terdekat
     var form = selectElement.closest('.form-update-status');
     if (form) {
-        // Cari wrapper textarea di dalam form itu
         var textareaWrapper = form.querySelector('.pesan-admin-wrapper');
         var textarea = textareaWrapper.querySelector('textarea');
         
-        if (selectElement.value === 'dibatalkan') {
-            textareaWrapper.style.display = 'block'; // Tampilkan
+        if (selectElement.value === 'gagal') {
+            textareaWrapper.style.display = 'block'; 
         } else {
-            textareaWrapper.style.display = 'none'; // Sembunyikan
-            textarea.value = ''; // Kosongkan nilainya
+            textareaWrapper.style.display = 'none'; 
         }
     }
 }

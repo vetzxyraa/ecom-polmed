@@ -1,27 +1,19 @@
-/* ==================================
-RESPONSIVE DESIGN
-==================================
-*/
-
-/* Tablet (misal: iPad) */
 @media (max-width: 1024px) {
     .product-grid {
-        /* 3 kolom di tablet */
         grid-template-columns: repeat(3, 1fr);
     }
 
     .admin-table, .table-container table {
-        table-layout: auto; /* Balikin ke auto */
+        table-layout: auto; 
     }
 
-    /* FIX: Ubah layout form edit produk di tablet */
     .form-edit-product-wrapper {
-        grid-template-columns: 1fr; /* Jadi 1 kolom */
+        grid-template-columns: 1fr; 
     }
     .form-edit-product-sidebar {
-        position: static; /* Hapus sticky */
+        position: static; 
         max-width: 100%;
-        grid-row: 1; /* Pindahkan sidebar gambar ke atas form */
+        grid-row: 1; 
     }
     .image-preview-container {
         max-width: 100%;
@@ -33,7 +25,6 @@ RESPONSIVE DESIGN
     }
 }
 
-/* Mobile (Layar Besar) */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -43,7 +34,7 @@ RESPONSIVE DESIGN
 
     .nav-links {
         margin-top: 15px;
-        flex-wrap: wrap; /* Biar bisa wrap di mobile */
+        flex-wrap: wrap; 
         justify-content: center;
         gap: 5px;
     }
@@ -58,7 +49,6 @@ RESPONSIVE DESIGN
     }
     
     .product-grid {
-        /* 2 kolom di mobile */
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -79,14 +69,13 @@ RESPONSIVE DESIGN
         text-align: center;
     }
 
-    /* Membuat tabel admin bisa di-scroll horizontal */
     .admin-table-wrapper, .table-container {
         width: 100%;
         overflow-x: auto;
     }
     
     .admin-table, .table-container table {
-        min-width: 800px; /* Paksa tabel jadi lebar */
+        min-width: 800px; 
     }
 
     .product-detail-actions {
@@ -94,15 +83,13 @@ RESPONSIVE DESIGN
     }
 }
 
-/* Mobile (Layar Kecil) */
 @media (max-width: 480px) {
     .product-grid {
-        /* 1 kolom di layar sangat kecil */
         grid-template-columns: 1fr;
     }
     
     .product-actions {
-        grid-template-columns: 1fr; /* Tombol jadi 1 kolom */
+        grid-template-columns: 1fr; 
     }
 
     .login-container {
