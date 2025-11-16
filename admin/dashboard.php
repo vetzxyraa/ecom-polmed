@@ -1,10 +1,13 @@
 <?php
+// Inisialisasi Session dan Database
 include 'includes/session_check.php';
 require '../config/database.php';
 include 'includes/header.php';
 
+// Daftar Status
 $list_status = ['menunggu', 'berhasil', 'gagal'];
 
+// Ambil Daftar Pesanan
 $sql = "SELECT pesanan.*, produk.nama_produk 
         FROM pesanan 
         JOIN produk ON pesanan.produk_id = produk.id 
@@ -51,6 +54,7 @@ $pesanan_list = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <td>Rp <?php echo number_format($pesanan['total_harga'], 0, ',', '.'); ?></td>
                     <td>
                         <?php
+                            // Logika Badge Status
                             $status = $pesanan['status'];
                             $status_class = 'status-menunggu';
                             if ($status == 'berhasil') {

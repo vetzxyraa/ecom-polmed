@@ -1,9 +1,11 @@
+/* Product Grid Layout */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
     gap: 32px; 
 }
 
+/* Product Card Styling */
 .product-card {
     background-color: var(--bg-white);
     border: none;
@@ -20,6 +22,7 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
 }
 
+/* Product Image Wrapper */
 .product-image-wrapper {
     width: 100%;
     aspect-ratio: 1 / 1; 
@@ -38,6 +41,7 @@
     transform: scale(1.05);
 }
 
+/* Product Info Section */
 .product-info {
     padding: 24px; 
     display: flex;
@@ -72,6 +76,7 @@
     margin-bottom: 16px;
 }
 
+/* Product Action Buttons (Card) */
 .product-actions {
     margin-top: auto;
     display: grid;
@@ -79,6 +84,7 @@
     gap: 8px;
 }
 
+/* General Button Styling */
 .btn {
     display: inline-block;
     padding: 12px 24px;
@@ -101,6 +107,7 @@
     box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
 }
 
+/* Button Variants */
 .btn-secondary {
     background-color: var(--border-color);
     color: var(--secondary);
@@ -130,7 +137,6 @@
     box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
 }
 
-
 .btn-whatsapp {
     background-color: var(--whatsapp);
     color: var(--bg-white);
@@ -141,6 +147,7 @@
     box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
 }
 
+/* Button with Icon */
 .btn-icon {
     display: inline-flex;
     align-items: center;
@@ -162,6 +169,7 @@
     background: var(--bg-light);
 }
 
+/* Product Detail Action Buttons */
 .product-detail-actions {
     display: flex;
     flex-wrap: wrap;
@@ -173,6 +181,7 @@
     flex-grow: 1; 
 }
 
+/* Status Badge Styling */
 .status-badge {
     display: inline-block;
     padding: 6px 12px;
@@ -209,7 +218,7 @@
     border-color: #FECACA; 
 }
 
-
+/* Product Detail Page Layout */
 .product-detail-container {
     display: flex;
     gap: 40px;
@@ -221,6 +230,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
+/* Product Detail Image & Slider */
 .product-detail-image {
     flex-basis: 50%;
     border-radius: 10px;
@@ -264,6 +274,7 @@
     white-space: pre-wrap; 
 }
 
+/* Back Button */
 .back-button {
     display: inline-flex;
     align-items: center;
@@ -283,6 +294,7 @@
     stroke-width: 2.5px;
 }
 
+/* Form & Status Box Container */
 .form-container, .status-box, .login-container {
     max-width: 700px;
     margin: 0 auto;
@@ -293,6 +305,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
+/* Form Group */
 .form-group {
     margin-bottom: 20px;
 }
@@ -304,6 +317,7 @@
     font-size: 0.9rem;
 }
 
+/* Form Control (Input, Textarea) */
 .form-control {
     width: 100%;
     padding: 12px 16px;
@@ -337,6 +351,7 @@ textarea.form-control {
     padding: 7px;
 }
 
+/* Status Page Info */
 .status-info {
     font-size: 1.1rem;
     margin-bottom: 10px;
@@ -374,7 +389,7 @@ textarea.form-control {
     margin-left: 0;
 }
 
-
+/* Message Box (Success/Error) */
 .message-box {
     padding: 16px;
     margin-bottom: 20px;
@@ -393,12 +408,14 @@ textarea.form-control {
     border-color: #FECACA;
 }
 
+/* Image Slider Container */
 .slider-container {
     position: relative;
     width: 100%;
     aspect-ratio: 1/1;
 }
 
+/* Image Slide */
 .slider-slide {
     display: none;
     width: 100%;
@@ -417,6 +434,7 @@ textarea.form-control {
     to { opacity: 1 }
 }
 
+/* Slider Controls (Buttons) */
 .slider-controls {
     position: absolute;
     top: 50%;
@@ -446,7 +464,8 @@ textarea.form-control {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.slider-btn i {
+/* Slider Button Icon Styling */
+.slider-btn svg {
     width: 28px;
     height: 28px;
     stroke-width: 3px;

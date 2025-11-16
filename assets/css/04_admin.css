@@ -1,3 +1,4 @@
+/* Wrapper Tabel Admin */
 .admin-table-wrapper, .table-container {
     width: 100%;
     overflow-x: auto;
@@ -7,6 +8,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
+/* Tabel Admin */
 .admin-table, .table-container table {
     width: 100%;
     border-collapse: collapse;
@@ -25,6 +27,7 @@
     background: var(--bg-light);
 }
 
+/* Lebar Kolom Tabel Dashboard */
 .admin-table th:nth-child(1) { width: 15%; } 
 .admin-table th:nth-child(2) { width: 15%; } 
 .admin-table th:nth-child(3) { width: 20%; } 
@@ -32,7 +35,7 @@
 .admin-table th:nth-child(5) { width: 15%; } 
 .admin-table th:nth-child(6) { width: 25%; } 
 
-
+/* Sel Tabel Admin */
 .admin-table td, .table-container td {
     padding: 16px;
     vertical-align: middle;
@@ -45,6 +48,7 @@
     border-bottom: none;
 }
 
+/* Gambar di Tabel */
 .order-image, .admin-table img, .table-container img {
     width: 60px;
     height: 60px;
@@ -60,6 +64,7 @@
     margin-right: 5px;
 }
 
+/* Header Halaman Admin */
 .admin-header {
     display: flex;
     justify-content: space-between;
@@ -79,7 +84,7 @@
     box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
 }
 
-
+/* Bubble Pesan Admin */
 .admin-message-bubble {
     font-size: 0.85rem;
     background: var(--bg-light);
@@ -91,6 +96,7 @@
     color: var(--text-light);
 }
 
+/* Form Update Status Pesanan */
 .form-update-status {
     display: flex;
     flex-direction: column;
@@ -112,6 +118,7 @@
     margin-bottom: 0;
 }
 
+/* Halaman Login Admin */
 .login-page-wrapper {
     display: flex;
     align-items: center;
@@ -150,6 +157,7 @@
     width: 100%; 
 }
 
+/* Link di Bawah Form Login */
 .login-footer-links {
     margin-top: 25px;
     text-align: center;
@@ -173,6 +181,7 @@
     height: 16px;
 }
 
+/* Layout Form Edit Produk */
 .form-edit-product-wrapper {
     display: grid;
     grid-template-columns: 1fr 300px; 

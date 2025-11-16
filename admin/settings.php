@@ -1,10 +1,12 @@
 <?php
+// Inisialisasi Session dan Database
 include 'includes/session_check.php';
 require '../config/database.php';
 
 $message = '';
 $message_type = 'success';
 
+// Ambil Pengaturan Awal
 $settings = [];
 $sql_get_init = "SELECT setting_key, setting_value FROM settings";
 $result_get_init = mysqli_query($koneksi, $sql_get_init);
@@ -13,20 +15,24 @@ if ($result_get_init) {
         $settings[$row['setting_key']] = $row['setting_value'];
     }
 }
+// Fungsi Helper Ambil Pengaturan
 function get_setting($key, $default = '') {
     global $settings;
     return isset($settings[$key]) ? htmlspecialchars($settings[$key]) : $default;
 }
 
+// Proses Simpan Form (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $settings_data = $_POST;
     
+    // Logika Upload/Update Foto 'About'
     $current_foto_path = isset($settings['foto_about']) ? $settings['foto_about'] : '';
     $pasted_url = mysqli_real_escape_string($koneksi, $settings_data['foto_about_url']);
     
     $new_foto_path = !empty($pasted_url) ? $pasted_url : $current_foto_path;
 
+    // Cek Jika Ada File Diupload
     if (isset($_FILES['foto_about_file']) && $_FILES['foto_about_file']['error'] == UPLOAD_ERR_OK) {
         
         $target_dir = "../assets/images/uploads/"; 
@@ -34,14 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mkdir($target_dir, 0755, true); 
         }
         
+        // Buat Nama File Unik
         $file_info = pathinfo($_FILES["foto_about_file"]["name"]);
         $file_extension = strtolower($file_info['extension']);
         $new_file_name = "about_" . time() . "." . $file_extension;
         $target_file = $target_dir . $new_file_name;
         
         $allowed_types = ['jpg', 'jpeg', 'png'];
-        $max_file_size = 2 * 1024 * 1024; 
+        $max_file_size = 2 * 1024 * 1024; // 2MB
 
+        // Validasi File Upload
         if (!in_array($file_extension, $allowed_types)) {
             $message = "Gagal upload: Format file foto 'About' tidak didukung (hanya .jpg, .jpeg, .png).";
             $message_type = 'error';
@@ -51,9 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message_type = 'error';
             $new_foto_path = $current_foto_path; 
         } else {
+            // Pindahkan File
             if (move_uploaded_file($_FILES["foto_about_file"]["tmp_name"], $target_file)) {
                 $new_foto_path = "assets/images/uploads/" . $new_file_name;
                 
+                // Hapus File Lama Jika Ada
                 if (!empty($current_foto_path) && filter_var($current_foto_path, FILTER_VALIDATE_URL) === FALSE && file_exists("../" . $current_foto_path)) {
                     unlink("../" . $current_foto_path);
                 }
@@ -63,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $new_foto_path = $current_foto_path; 
             }
         }
+    // Hapus File Lama Jika Ganti ke URL
     } 
     elseif ($current_foto_path != $pasted_url) {
         if (!empty($current_foto_path) && filter_var($current_foto_path, FILTER_VALIDATE_URL) === FALSE && file_exists("../" . $current_foto_path)) {
@@ -71,10 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     unset($settings_data['foto_about_url']);
-    
     $settings_data['foto_about'] = $new_foto_path;
 
-
+    // Simpan Semua Pengaturan ke Database
     mysqli_begin_transaction($koneksi);
     
     try {
@@ -82,6 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $key_clean = mysqli_real_escape_string($koneksi, $key);
             $value_clean = mysqli_real_escape_string($koneksi, $value);
 
+            // Query INSERT ... ON DUPLICATE KEY UPDATE
             $sql = "INSERT INTO settings (setting_key, setting_value) 
                     VALUES (?, ?) 
                     ON DUPLICATE KEY UPDATE setting_value = ?";
@@ -101,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              $message_type = 'success';
         }
         
+        // Muat Ulang Pengaturan Setelah Simpan
         $sql_get_new = "SELECT setting_key, setting_value FROM settings";
         $result_get_new = mysqli_query($koneksi, $sql_get_new);
         if ($result_get_new) {
@@ -159,12 +171,13 @@ include 'includes/header.php';
 
         <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;">
 
-        <h3 class="form-section-title">Halaman</h3>
+        <h3 class="form-section-title">Halaman "Tentang Saya"</h3>
         
         <div class="form-group">
             <label>Foto</label>
             
             <?php
+            // Tampilkan Preview Foto 'About'
             $current_foto_display = get_setting('foto_about');
             if (empty($current_foto_display)) {
                 $current_foto_display = "https://placehold.co/300x300/E5E7EB/374151?text=No+Image";

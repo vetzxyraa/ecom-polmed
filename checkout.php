@@ -1,4 +1,5 @@
 <?php
+// Inisialisasi Database dan Session
 require 'config/database.php';
 session_start(); 
 
@@ -9,6 +10,7 @@ $message_type = '';
 $order_success = false;
 $new_order_code = '';
 
+// Ambil Flash Message
 if (isset($_SESSION['flash_message'])) {
     $message = $_SESSION['flash_message'];
     $message_type = $_SESSION['flash_message_type'];
@@ -16,6 +18,7 @@ if (isset($_SESSION['flash_message'])) {
     unset($_SESSION['flash_message_type']);
 }
 
+// Ambil Data Produk
 if ($id > 0) {
     $sql = "SELECT * FROM produk WHERE id = ?";
     if ($stmt = mysqli_prepare($koneksi, $sql)) {
@@ -27,6 +30,7 @@ if ($id > 0) {
     }
 }
 
+// Validasi Produk
 if (!$produk) {
     $_SESSION['flash_message'] = "Produk tidak ditemukan.";
     $_SESSION['flash_message_type'] = 'error';
@@ -34,6 +38,7 @@ if (!$produk) {
     exit;
 }
 
+// Validasi Stok
 if ($produk['stok'] <= 0) {
      $_SESSION['flash_message'] = "Stok produk telah habis.";
      $_SESSION['flash_message_type'] = 'error';
@@ -41,13 +46,14 @@ if ($produk['stok'] <= 0) {
     exit;
 }
 
-
+// Proses Form Checkout
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_pembeli = mysqli_real_escape_string($koneksi, $_POST['nama_pembeli']);
     $no_hp = mysqli_real_escape_string($koneksi, $_POST['no_hp']);
     $alamat = mysqli_real_escape_string($koneksi, $_POST['alamat']);
     $jumlah = (int)$_POST['jumlah'];
     
+    // Cek Stok Terbaru
     $sql_check_stok = "SELECT stok FROM produk WHERE id = ?";
     if ($stmt_check = mysqli_prepare($koneksi, $sql_check_stok)) {
          mysqli_stmt_bind_param($stmt_check, "i", $id);
@@ -58,10 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          $produk['stok'] = $stok_saat_ini; 
     }
 
+    // Validasi Jumlah Pesanan vs Stok
     if ($jumlah > 0 && $jumlah <= $produk['stok']) {
         $total_harga = $jumlah * $produk['harga'];
         $kode_pesanan = "GHS-" . time() . rand(10, 99);
         
+        // Masukkan Pesanan ke Database
         $sql_insert = "INSERT INTO pesanan (produk_id, kode_pesanan, nama_pembeli, no_hp, alamat, jumlah, total_harga, status) 
                        VALUES (?, ?, ?, ?, ?, ?, ?, 'menunggu')";
         
@@ -69,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mysqli_stmt_bind_param($stmt, "issssis", $produk['id'], $kode_pesanan, $nama_pembeli, $no_hp, $alamat, $jumlah, $total_harga);
             
             if (mysqli_stmt_execute($stmt)) {
+                // Kurangi Stok Produk
                 $sql_update_stok = "UPDATE produk SET stok = stok - ? WHERE id = ?";
                 if ($stmt_stok = mysqli_prepare($koneksi, $sql_update_stok)) {
                     mysqli_stmt_bind_param($stmt_stok, "ii", $jumlah, $produk['id']);

@@ -1,4 +1,5 @@
 <?php
+// Inisialisasi Database
 require 'config/database.php';
 include 'includes/header.php';
 
@@ -7,6 +8,7 @@ $pesanan = null;
 $message = '';
 $message_type = 'error'; 
 
+// Proses Pencarian Kode Pesanan
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($kode_pesanan)) {
     $sql = "SELECT p.*, pr.nama_produk, pr.gambar 
             FROM pesanan p 
@@ -65,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($kode_pesanan)) {
     </div>
     
     <?php
+        // Logika Badge Status
         $status = $pesanan['status'];
         $status_class = 'status-menunggu';
         if ($status == 'berhasil') {
@@ -80,7 +83,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($kode_pesanan)) {
             <?php echo htmlspecialchars(ucfirst($status)); ?>
         </span>
     </p>
-    
     <p class="status-info"><strong>Produk:</strong> <?php echo htmlspecialchars($pesanan['nama_produk']); ?></p>
     <p class="status-info"><strong>Jumlah:</strong> <?php echo $pesanan['jumlah']; ?> pcs</p>
     <p class="status-info"><strong>Total:</strong> Rp <?php echo number_format($pesanan['total_harga'], 0, ',', '.'); ?></p>
@@ -127,6 +129,7 @@ function salinKode() {
     var kodePesanan = document.getElementById("kode-pesanan-teks").innerText;
     var salinButtonText = document.getElementById("salin-text");
     
+    // Coba Salin Modern
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(kodePesanan).then(function() {
             salinButtonText.innerText = "Tersalin!";
@@ -140,6 +143,7 @@ function salinKode() {
         fallbackSalin(); 
     }
 
+    // Fallback untuk Browser Lama
     function fallbackSalin() {
         var tempTextarea = document.createElement("textarea");
         tempTextarea.value = kodePesanan;

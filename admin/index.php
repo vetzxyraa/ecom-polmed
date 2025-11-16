@@ -1,17 +1,21 @@
 <?php
+// Inisialisasi Session dan Database
 session_start();
 require '../config/database.php';
 
+// Redirect Jika Sudah Login
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
     header("Location: dashboard.php");
     exit;
 }
 
 $error = '';
+// Proses Form Login (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = mysqli_real_escape_string($koneksi, $_POST['username']);
     $password = $_POST['password'];
 
+    // Cek Username
     $sql = "SELECT id, username, password FROM admin WHERE username = ?";
     
     if ($stmt = mysqli_prepare($koneksi, $sql)) {
@@ -20,10 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_store_result($stmt);
             
+            // Verifikasi Password
             if (mysqli_stmt_num_rows($stmt) == 1) {
                 mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
                 if (mysqli_stmt_fetch($stmt)) {
                     if (password_verify($password, $hashed_password)) {
+                        // Sukses Login
                         session_start();
                         $_SESSION['admin_logged_in'] = true;
                         $_SESSION['admin_id'] = $id;

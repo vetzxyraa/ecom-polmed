@@ -1,6 +1,8 @@
 <?php
+// Include Database
 require_once __DIR__ . '/../config/database.php';
 
+// Ambil Pengaturan Global
 $SETTINGS = [];
 $sql_settings = "SELECT setting_key, setting_value FROM settings";
 $result_settings = mysqli_query($koneksi, $sql_settings);
@@ -10,6 +12,7 @@ if ($result_settings) {
     }
 }
 
+// Fungsi Helper Pengaturan
 function get_global_setting($key, $default = '') {
     global $SETTINGS;
     return isset($SETTINGS[$key]) ? htmlspecialchars($SETTINGS[$key]) : $default;

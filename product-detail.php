@@ -1,4 +1,5 @@
 <?php
+// Konfigurasi dan Ambil Data Produk
 require 'config/database.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $produk = null;
@@ -14,6 +15,7 @@ if ($id > 0) {
     }
 }
 
+// Redirect jika Produk Tidak Ditemukan
 if (!$produk) {
     header("Location: index.php");
     exit;
@@ -21,6 +23,7 @@ if (!$produk) {
 
 include 'includes/header.php';
 
+// Logika Pemrosesan Gambar Produk
 $gambar_list = [];
 if (!empty($produk['gambar'])) {
     $gambar_url = $produk['gambar'];
@@ -37,6 +40,7 @@ if (!empty($produk['gambar2'])) {
     $gambar_list[] = $gambar_url_2;
 }
 
+// Gambar Default
 if (empty($gambar_list)) {
     $gambar_list[] = 'https://placehold.co/800x800/E5E7EB/374151?text=No+Image';
 }
@@ -83,6 +87,7 @@ if (empty($gambar_list)) {
             <?php endif; ?>
             
             <?php
+                // Link WhatsApp
                 $nomor_wa = get_global_setting('nomor_wa', '6281234567890');
                 $nama_produk_url = urlencode($produk['nama_produk']);
                 $pesan_wa = "Halo, saya tertarik dengan produk \"{$nama_produk_url}\". Apakah produk ini masih tersedia?";
@@ -101,10 +106,12 @@ if (empty($gambar_list)) {
 let slideIndex = 1;
 showSlides(slideIndex);
 
+// Fungsi Navigasi Slider
 function plusSlides(n) {
     showSlides(slideIndex += n);
 }
 
+// Fungsi Tampilkan Slide
 function showSlides(n) {
     let i;
     let slides = document.getElementsByClassName("slider-slide");
@@ -119,5 +126,6 @@ function showSlides(n) {
 <?php endif; ?>
 
 <?php
+// Include Footer
 include 'includes/footer.php';
 ?>

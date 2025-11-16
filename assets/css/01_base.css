@@ -1,9 +1,11 @@
+/* Reset CSS */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Pengaturan Body dan Font */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-light);
@@ -17,12 +19,14 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Pengaturan Gambar */
 img {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
+/* Pengaturan Link */
 a {
     text-decoration: none;
     color: var(--primary);
@@ -37,6 +41,7 @@ ul {
     list-style: none;
 }
 
+/* Layout Halaman Dasar */
 .page-content {
     padding-top: 2rem;
     padding-bottom: 4rem;
@@ -50,6 +55,7 @@ ul {
     letter-spacing: -0.5px;
 }
 
+/* Preloader */
 #preloader {
     position: fixed;
     top: 0;
@@ -76,6 +82,7 @@ ul {
     visibility: hidden;
 }
 
+/* Spinner Animasi */
 .spinner {
     width: 80px;
     height: 80px;
@@ -92,7 +99,7 @@ ul {
     }
 }
 
-
+/* Footer */
 .footer {
     text-align: center;
     padding: 30px 0;

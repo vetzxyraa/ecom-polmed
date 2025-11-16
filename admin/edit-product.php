@@ -1,7 +1,9 @@
 <?php
+// Inisialisasi Session dan Database
 require 'includes/session_check.php';
 require '../config/database.php';
 
+// Ambil ID Produk
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $produk = [
     'id' => $id,
@@ -16,6 +18,7 @@ $page_title = "Tambah Produk Baru";
 $message = '';
 $message_type = 'error'; 
 
+// Mode Edit: Ambil Data Produk
 if ($id > 0) {
     $page_title = "Edit Produk";
     $sql_select = "SELECT * FROM produk WHERE id = ?";
@@ -33,16 +36,19 @@ if ($id > 0) {
     }
 }
 
+// Fungsi Proses Upload Gambar
 function process_image_upload($file_input_name, $existing_image_name, $product_name_prefix) {
     global $message, $message_type;
     $new_image_name = $existing_image_name;
     
+    // Cek Jika Ada File Diupload
     if (isset($_FILES[$file_input_name]) && $_FILES[$file_input_name]['error'] == UPLOAD_ERR_OK) {
         $target_dir = "../assets/images/products/";
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0755, true);
         }
         
+        // Buat Nama File Unik
         $file_info = pathinfo($_FILES[$file_input_name]["name"]);
         $file_extension = strtolower($file_info['extension']);
         $new_image_name = $product_name_prefix . time() . "." . $file_extension;
@@ -51,6 +57,7 @@ function process_image_upload($file_input_name, $existing_image_name, $product_n
         $allowed_types = ['jpg', 'jpeg', 'png'];
         $max_file_size = 2 * 1024 * 1024; // 2MB
 
+        // Validasi File
         if (!in_array($file_extension, $allowed_types)) {
             $message .= " Gagal upload $file_input_name: Format file tidak didukung. ";
             $message_type = 'error';
@@ -64,7 +71,9 @@ function process_image_upload($file_input_name, $existing_image_name, $product_n
              $message_type = 'error';
              return $existing_image_name;
         } else {
+            // Pindahkan File
             if (move_uploaded_file($_FILES[$file_input_name]["tmp_name"], $target_file)) {
+                // Hapus Gambar Lama Jika Ada
                 if (!empty($existing_image_name) && filter_var($existing_image_name, FILTER_VALIDATE_URL) === FALSE && file_exists($target_dir . $existing_image_name)) {
                     unlink($target_dir . $existing_image_name);
                 }
@@ -83,6 +92,7 @@ function process_image_upload($file_input_name, $existing_image_name, $product_n
     return $new_image_name;
 }
 
+// Proses Simpan Form (POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = (int)$_POST['id'];
     $nama_produk = mysqli_real_escape_string($koneksi, $_POST['nama_produk']);
@@ -93,12 +103,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gambar_lama = mysqli_real_escape_string($koneksi, $_POST['gambar_lama']);
     $gambar_lama_2 = mysqli_real_escape_string($koneksi, $_POST['gambar_lama_2']);
 
+    // Validasi Input Dasar
     if (empty($nama_produk) || $harga <= 0 || $stok < 0) {
         $message = "Nama produk, harga (harus > 0), dan stok (harus >= 0) wajib diisi.";
     } else {
+        // Proses Gambar
         $gambar_baru_nama = process_image_upload('gambar', $gambar_lama, "product1_");
         $gambar_baru_nama_2 = process_image_upload('gambar2', $gambar_lama_2, "product2_");
 
+        // Gambar Default Jika Tambah Baru dan Tidak Upload
         if ($id == 0 && empty($gambar_baru_nama)) {
              $gambar_baru_nama = "https://placehold.co/800x800/E5E7EB/374151?text=" . urlencode($nama_produk);
         }
@@ -108,6 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message_type = 'success';
         }
 
+        // Update (Edit)
         if ($id > 0) {
             $sql = "UPDATE produk SET nama_produk = ?, harga = ?, stok = ?, deskripsi = ?, gambar = ?, gambar2 = ? WHERE id = ?";
             if ($stmt = mysqli_prepare($koneksi, $sql)) {
@@ -117,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: products.php?status=success");
                 exit;
             }
+        // Insert (Tambah Baru)
         } else {
             $sql = "INSERT INTO produk (nama_produk, harga, stok, deskripsi, gambar, gambar2) VALUES (?, ?, ?, ?, ?, ?)";
             if ($stmt = mysqli_prepare($koneksi, $sql)) {
@@ -131,6 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message_type = 'error';
     }
     
+    // Set Data ke Form Jika Gagal
     $produk['nama_produk'] = $nama_produk;
     $produk['harga'] = $harga;
     $produk['stok'] = $stok;
@@ -141,6 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 include 'includes/header.php';
 
+// Fungsi Tampilkan Preview Gambar
 function display_image_preview($gambar_url) {
     if (!empty($gambar_url)) {
         if (filter_var($gambar_url, FILTER_VALIDATE_URL) === FALSE) {

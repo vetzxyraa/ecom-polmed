@@ -1,11 +1,14 @@
 <?php 
+// Include Header
 include 'includes/header.php'; 
 
+// Ambil Info Kontak dari Pengaturan Global
 $nomor_wa = get_global_setting('nomor_wa', '6281234567890');
 $nama_toko = get_global_setting('nama_toko', 'GantunganHP Store');
 $email = get_global_setting('email_kontak', 'admin@contoh.com');
 $alamat = get_global_setting('alamat_toko', 'Silakan isi alamat di panel admin.');
 
+// Buat Link WhatsApp
 $pesan_wa = urlencode("Halo, saya ingin bertanya sesuatu tentang produk $nama_toko...");
 $link_wa = "https://api.whatsapp.com/send?phone={$nomor_wa}&text={$pesan_wa}";
 ?>
@@ -52,5 +55,6 @@ $link_wa = "https://api.whatsapp.com/send?phone={$nomor_wa}&text={$pesan_wa}";
 </div>
 
 <?php 
+// Include Footer
 include 'includes/footer.php'; 
 ?>

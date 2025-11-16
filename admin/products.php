@@ -1,8 +1,10 @@
 <?php
+// Inisialisasi Session dan Database
 require 'includes/session_check.php';
 require '../config/database.php';
 include 'includes/header.php';
 
+// Tampilkan Pesan Status
 $message = '';
 $message_type = 'success'; 
 if (isset($_GET['status'])) {
@@ -16,6 +18,7 @@ if (isset($_GET['status'])) {
     }
 }
 
+// Ambil Daftar Produk
 $sql = "SELECT * FROM produk ORDER BY id DESC";
 $result = mysqli_query($koneksi, $sql);
 ?>
@@ -28,7 +31,6 @@ $result = mysqli_query($koneksi, $sql);
 </div>
 
 <?php echo $message; ?>
-
 
 <div class="table-container">
     <table>
@@ -45,6 +47,7 @@ $result = mysqli_query($koneksi, $sql);
             <?php
             if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
+                    // Logika URL Gambar
                     $gambar_url = $row['gambar'];
                     if (filter_var($gambar_url, FILTER_VALIDATE_URL) === FALSE) {
                         $gambar_url = '../assets/images/products/' . htmlspecialchars($gambar_url);

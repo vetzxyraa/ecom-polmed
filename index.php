@@ -1,7 +1,9 @@
 <?php
+// Inisialisasi Database
 require 'config/database.php';
 include 'includes/header.php';
 
+// Ambil Semua Produk
 $sql = "SELECT * FROM produk ORDER BY id DESC";
 $result = mysqli_query($koneksi, $sql);
 $produks = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -17,6 +19,7 @@ $produks = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <div class="product-card">
                 <div class="product-image-wrapper">
                     <?php
+                    // Logika URL Gambar
                     $gambar_url = $produk['gambar'];
                     if (!filter_var($gambar_url, FILTER_VALIDATE_URL)) {
                         $gambar_url = 'assets/images/products/' . htmlspecialchars($gambar_url);

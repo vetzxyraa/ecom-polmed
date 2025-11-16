@@ -1,4 +1,5 @@
 <?php 
+// Include Header
 include 'includes/header.php'; 
 ?>
 
@@ -21,6 +22,7 @@ include 'includes/header.php';
             
             <div style="font-size: 1.1rem; color: var(--text-light); white-space: pre-wrap;">
                 <?php 
+                    // Ambil Teks dari Database
                     $teks_about = htmlspecialchars_decode(get_global_setting('teks_about', 'Silakan isi teks "Tentang Saya" di panel admin.'));
                     echo nl2br($teks_about); 
                 ?>
@@ -30,5 +32,6 @@ include 'includes/header.php';
 </div>
 
 <?php 
+// Include Footer
 include 'includes/footer.php'; 
 ?>
